@@ -1,4 +1,5 @@
 using System.IdentityModel.Tokens.Jwt;
+using AutoMapper;
 using Infrastructure.Configuration;
 using Infrastructure.Extensions;
 using Infrastructure.Filters;
@@ -59,9 +60,11 @@ builder.Services.AddAuthentication(options =>
 builder.Services.Configure<AppSettings>(configuration);
 
 builder.Services.AddHttpClient();
+
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IHttpClientService, HttpClientService>();
 builder.Services.AddTransient<ICatalogService, CatalogService>();
+builder.Services.AddTransient<IMapper, Mapper>();
 builder.Services.AddTransient<IIdentityParser<ApplicationUser>, IdentityParser>();
 builder.Services.AddScoped<LogActionFilterAttribute<CatalogController>>();
 
