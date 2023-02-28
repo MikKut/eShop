@@ -59,7 +59,6 @@ builder.Services.AddAuthentication(options =>
 builder.Services.Configure<AppSettings>(configuration);
 
 builder.Services.AddHttpClient();
-builder.Services.AddTransient<ILogger<CatalogController>, Logger<CatalogController>>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IHttpClientService, HttpClientService>();
 builder.Services.AddTransient<ICatalogService, CatalogService>();
@@ -82,6 +81,8 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 app.UseEndpoints(endpoints =>
 {

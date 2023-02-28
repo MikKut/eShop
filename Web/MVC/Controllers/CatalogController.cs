@@ -25,8 +25,9 @@ public class CatalogController : Controller
     {   
         page ??= 0;
         itemsPage ??= 6;
+        _logger.LogInformation($"Before receiving catalog items. Page.Value: {page.Value}; itmes.Value: {itemsPage.Value}, brandFilterAplied: {brandFilterApplied}, typesFilterApplied: {typesFilterApplied}");
         var catalog = await _catalogService.GetCatalogItems(page.Value, itemsPage.Value, brandFilterApplied, typesFilterApplied);
-        _logger.LogInformation($"After resievieng catalog items. They are null: {catalog is null}");
+        _logger.LogInformation($"After receiving catalog items. They are null: {catalog is null}");
         if (catalog == null)
         {
             return View("Error");
@@ -48,7 +49,6 @@ public class CatalogController : Controller
 
         vm.PaginationInfo.Next = (vm.PaginationInfo.ActualPage == vm.PaginationInfo.TotalPages - 1) ? "is-disabled" : "";
         vm.PaginationInfo.Previous = (vm.PaginationInfo.ActualPage == 0) ? "is-disabled" : "";
-
         return View(vm);
     }
 }

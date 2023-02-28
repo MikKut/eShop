@@ -37,7 +37,9 @@ public class AccountController : Controller
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
+        var user = _identityParser.Parse(User);
 
+        _logger.LogInformation($"User #{user.Id} {user.Name} sighned out");
         // "Catalog" because UrlHelper doesn't support nameof() for controllers
         // https://github.com/aspnet/Mvc/issues/5853
         var homeUrl = Url.Action(nameof(CatalogController.Index), "Catalog");
