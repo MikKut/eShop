@@ -95,7 +95,8 @@ public class CatalogServiceTest
 
         _catalogRepository.Setup(s => s.GetByPageAsync(
             It.Is<int>(i => i == testPageIndex),
-            It.Is<int>(i => i == testPageSize)))
+            It.Is<int>(i => i == testPageSize),
+            null))
             .ReturnsAsync(pagingPaginatedItemsSuccess);
 
         _mapper.Setup(s => s.Map<CatalogItemDto>(
@@ -103,7 +104,7 @@ public class CatalogServiceTest
             .Returns(catalogItemDtoSuccess);
 
         // act
-        var result = await _catalogService.GetCatalogItemsAsync(testPageSize, testPageIndex);
+        var result = await _catalogService.GetCatalogItemsAsync(testPageSize, testPageIndex, null);
 
         // assert
         Assert.NotNull(result);
@@ -123,11 +124,12 @@ public class CatalogServiceTest
 
         _catalogRepository.Setup(s => s.GetByPageAsync(
             It.Is<int>(i => i == testPageIndex),
-            It.Is<int>(i => i == testPageSize)))
+            It.Is<int>(i => i == testPageSize),
+            null))
             .ReturnsAsync(item);
 
         // act
-        var result = await _catalogService.GetCatalogItemsAsync(testPageSize, testPageIndex);
+        var result = await _catalogService.GetCatalogItemsAsync(testPageSize, testPageIndex, null);
 
         // assert
         Assert.Null(result);
