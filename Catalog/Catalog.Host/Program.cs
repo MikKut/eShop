@@ -15,10 +15,12 @@ var configuration = GetConfiguration();
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(options =>
-    {
-        options.Filters.Add(typeof(HttpGlobalExceptionFilter));
-    })
-    .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
+{
+    options.Filters.Add(typeof(HttpGlobalExceptionFilter));
+})
+    .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true)
+    .AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -64,11 +66,6 @@ builder.Services.AddTransient<ICatalogService, CatalogService>();
 builder.Services.AddTransient<ICatalogItemService, CatalogItemService>();
 builder.Services.AddTransient<ICatalogTypeService, CatalogTypeService>();
 builder.Services.AddTransient<ICatalogBrandService, CatalogBrandService>();
-
-builder.Services.AddTransient<ILogger<CatalogBrandController>, Logger<CatalogBrandController>>();
-builder.Services.AddTransient<ILogger<CatalogTypeController>, Logger<CatalogTypeController>>();
-builder.Services.AddTransient<ILogger<CatalogBffController>, Logger<CatalogBffController>>();
-builder.Services.AddTransient<ILogger<CatalogItemController>, Logger<CatalogItemController>>();
 
 builder.Services.AddTransient<ICatalogItemRepository, CatalogItemRepository>();
 builder.Services.AddTransient<ICatalogRepository, CatalogRepository>();

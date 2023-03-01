@@ -81,6 +81,21 @@ namespace IdentityServer
                         "openid", "profile", "mvc", "catalog.catalogitem","catalog.catalogtype", "catalog.catalogbrand"
                     }
                 },
+                 new Client
+                {
+                    ClientId = "basketswaggerui",
+                    ClientName = "Basket Swagger UI",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RedirectUris = { $"{configuration["BasketApi"]}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{configuration["BasketApi"]}/swagger/" },
+
+                    AllowedScopes =
+                    {
+                        "mvc"
+                    }
+                },
             };
         }
     }
