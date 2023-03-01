@@ -1,5 +1,6 @@
 using Catalog.Host.Data;
 using Catalog.Host.Data.Entities;
+using Catalog.Host.Models.Enums;
 using Catalog.Host.Repositories.Interfaces;
 using Catalog.Host.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -19,12 +20,33 @@ public class CatalogRepository : ICatalogRepository
         _logger = logger;
     }
 
-    public async Task<PaginatedItems<CatalogItem>> GetByPageAsync(int pageIndex, int pageSize)
+    /// <summary>
+    /// Gets elements by page with some filters.
+    /// </summary>
+    /// <typeparam name="T">Enum that represents filter type.</typeparam>
+    /// <param name="pageIndex">Represents index of the page to take.</param>
+    /// <param name="pageSize">Represents size of the pages.</param>
+    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns><param name="filters">Dicrionary of filters with key of type <see cref="CatalogTypeFilter"> and id of filter as a value.</param>.
+    public async Task<PaginatedItems<CatalogItem>> GetByPageAsync(int pageIndex, int pageSize, Dictionary<CatalogTypeFilter, int>? filters)
     {
-        var totalItems = await _dbContext.CatalogItems
+        long totalItems;
+        if (filters == null)
+        {
+            filters = new Dictionary<CatalogTypeFilter, int>();
+            totalItems = await _dbContext.CatalogItems
+                .LongCountAsync();
+        }
+        else
+        {
+            totalItems = await _dbContext.CatalogItems
+            .Where(i => !filters.ContainsKey(CatalogTypeFilter.Brand) || i.CatalogBrandId == filters[CatalogTypeFilter.Brand])
+            .Where(i => !filters.ContainsKey(CatalogTypeFilter.Type) || i.CatalogTypeId == filters[CatalogTypeFilter.Type])
             .LongCountAsync();
+        }
 
         var itemsOnPage = await _dbContext.CatalogItems
+            .Where(i => !filters.ContainsKey(CatalogTypeFilter.Brand) || i.CatalogBrandId == filters[CatalogTypeFilter.Brand])
+            .Where(i => !filters.ContainsKey(CatalogTypeFilter.Type) || i.CatalogTypeId == filters[CatalogTypeFilter.Type])
             .Include(i => i.CatalogBrand)
             .Include(i => i.CatalogType)
             .OrderBy(c => c.Name)
@@ -32,6 +54,19 @@ public class CatalogRepository : ICatalogRepository
             .Take(pageSize)
             .ToListAsync();
 
+        _logger.LogInformation("\nFilters\n");
+        foreach (var filter in filters)
+        {
+            _logger.LogInformation($"{filter.Key}({filter.Value.ToString()}) - {filter.Value}");
+        }
+
+        _logger.LogInformation("\nValues\n");
+        foreach (var item in itemsOnPage)
+        {
+            _logger.LogInformation($"{item.Id} - {item.Name} of {item.CatalogBrand.Brand}({item.CatalogBrand.Id}) brand and {item.CatalogType.Type}({item.CatalogType.Id}) type");
+        }
+
+        _logger.LogInformation($"\nEnded with {totalItems} total items and {itemsOnPage.Count} items on page\n");
         return new PaginatedItems<CatalogItem>() { TotalCount = totalItems, Data = itemsOnPage };
     }
 

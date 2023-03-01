@@ -1,6 +1,7 @@
 using AutoMapper;
 using Catalog.Host.Data;
 using Catalog.Host.Models.Dtos;
+using Catalog.Host.Models.Enums;
 using Catalog.Host.Models.Response;
 using Catalog.Host.Repositories.Interfaces;
 using Catalog.Host.Services.Interfaces;
@@ -62,11 +63,11 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
         });
     }
 
-    public async Task<PaginatedItemsResponse<CatalogItemDto>> GetCatalogItemsAsync(int pageSize, int pageIndex)
+    public async Task<PaginatedItemsResponse<CatalogItemDto>> GetCatalogItemsAsync(int pageSize, int pageIndex, Dictionary<CatalogTypeFilter, int>? filters)
     {
         return await ExecuteSafeAsync(async () =>
         {
-            var result = await _catalogRepository.GetByPageAsync(pageIndex, pageSize);
+            var result = await _catalogRepository.GetByPageAsync(pageIndex, pageSize, filters);
             return new PaginatedItemsResponse<CatalogItemDto>()
             {
                 Count = result.TotalCount,

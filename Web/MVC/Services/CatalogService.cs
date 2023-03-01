@@ -37,14 +37,15 @@ public class CatalogService : ICatalogService
         }
         
         var request = $"{_settings.Value.CatalogUrl }/Items";
-        _logger.LogInformation($"Before sending request on {request} to take page #{page} with {take} page size");
+        _logger.LogInformation($"Before sending request on {request} to take page #{page} with {take} page size with");
         var result = await _httpClient.SendAsync<Catalog, PaginatedItemsRequest<CatalogTypeFilter>>(request,
            HttpMethod.Post, 
            new PaginatedItemsRequest<CatalogTypeFilter>()
             {
                 PageIndex = page,
-                PageSize = take
-            });
+                PageSize = take,
+                Filters = filters
+           });
         _logger.LogInformation($"After sending request on {request} to take {page} pages with {take} page size result is null: {result == null}");
         return result;
     }
