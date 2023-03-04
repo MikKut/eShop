@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MVC.Models.Dto;
-using MVC.Models.Requests;
 using MVC.Models.Responses;
 using MVC.Services.Interfaces;
 using MVC.ViewModels;

@@ -6,7 +6,7 @@ namespace Catalog.Host.Repositories.Interfaces;
 
 public interface ICatalogItemRepository
 {
-    Task<int?> AddAsync(ICatalogItem itemToAdd);
-    Task<bool> DeleteAsync(ICatalogItem itemToDelete);
-    Task<bool> UpdateAsync(int id, ICatalogItem itemToUpdate);
+    Task<int?> AddAsync(CatalogItem itemToAdd);
+    Task<bool> DeleteAsync(CatalogItem itemToDelete);
+    Task<bool> UpdateAsync(int id, CatalogItem itemToUpdate);
 }

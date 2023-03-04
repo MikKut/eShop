@@ -21,14 +21,14 @@ public class CatalogTypeRepository : ICatalogTypeRepository
         _logger = logger;
     }
 
-    public async Task<int?> AddAsync(ICatalogType type)
+    public async Task<int?> AddAsync(CatalogType type)
     {
         var item = await _dbContext.AddAsync(type);
         await _dbContext.SaveChangesAsync();
         return item.Entity.Id;
     }
 
-    public async Task<bool> DeleteAsync(ICatalogType type)
+    public async Task<bool> DeleteAsync(CatalogType type)
     {
         var item = await _dbContext.CatalogTypes
            .SingleAsync(t => t.Equal(type));
@@ -42,7 +42,7 @@ public class CatalogTypeRepository : ICatalogTypeRepository
         return true;
     }
 
-    public async Task<bool> UpdateAsync(int id, ICatalogType type)
+    public async Task<bool> UpdateAsync(int id, CatalogType type)
     {
         var item = await _dbContext.CatalogTypes
            .FindAsync(id);

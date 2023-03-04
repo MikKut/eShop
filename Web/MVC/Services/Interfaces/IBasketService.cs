@@ -8,7 +8,7 @@ namespace MVC.Services.Interfaces
     {
         Task<SuccessfulResultResponse> AddToBasket(OrderDto order);
         Task<SuccessfulResultResponse> RemoveFromBasket(OrderDto order);
-        Task<SuccessfulResultResponse> CommitPurchases();
-        Task<IEnumerable<CatalogBasketItem>> GetBasketItems();
+        Task<SuccessfulResultResponse> CommitPurchases(UserDto user);
+        Task<IEnumerable<CatalogBasketItem>> GetBasketItems(UserDto user);
     }
 }

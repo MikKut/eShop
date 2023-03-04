@@ -22,14 +22,14 @@ public class CatalogItemRepository : ICatalogItemRepository
         _logger = logger;
     }
 
-    public async Task<int?> AddAsync(ICatalogItem itemToAdd)
+    public async Task<int?> AddAsync(CatalogItem itemToAdd)
     {
         var item = await _dbContext.AddAsync(itemToAdd);
         await _dbContext.SaveChangesAsync();
         return item.Entity.Id;
     }
 
-    public async Task<bool> DeleteAsync(ICatalogItem itemToDelete)
+    public async Task<bool> DeleteAsync(CatalogItem itemToDelete)
     {
         var item = await _dbContext.CatalogItems
            .SingleAsync(t => t.Equal(itemToDelete));
@@ -44,7 +44,7 @@ public class CatalogItemRepository : ICatalogItemRepository
         return true;
     }
 
-    public async Task<bool> UpdateAsync(int id, ICatalogItem itemToUpdate)
+    public async Task<bool> UpdateAsync(int id, CatalogItem itemToUpdate)
     {
         var item = await _dbContext.CatalogItems
            .FindAsync(id);

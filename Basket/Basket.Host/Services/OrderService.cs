@@ -24,11 +24,11 @@ namespace Basket.Host.Services
             _httpClient = httpClient;
             _logger = logger;
         }
-        public async Task<SuccessfulResultResponse> CommitPurchases(BasketDto<T> request)
+        public async Task<SuccessfulResultResponse> CommitPurchases(OrderDto<T> request)
         {
             var result = await _httpClient.SendAsync<SuccessfulResultResponse, PurchaseRequest<T>>
                 ($"{_settings.Value.OrderUrl}/CommitPurchases",
-                HttpMethod.Post, new PurchaseRequest<T>() { Data = request.Data, );
+                HttpMethod.Post, new PurchaseRequest<T>() { Data = request.Orders, ID = request.User.UserId });
             return result;
         }
     }

@@ -1,8 +1,8 @@
-﻿using Catalog.Host.Data.Entities.Interfaces;
+﻿using Catalog.Host.Data.Entities;
 
 namespace Catalog.Host.Repositories.Interfaces
 {
-    public interface ICatalogBrandRepository : ICrudRepository<ICatalogBrand>
+    public interface ICatalogBrandRepository : ICrudRepository<CatalogBrand>
     {
     }
 }
