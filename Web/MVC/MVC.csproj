@@ -23,6 +23,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Include="Views\Basket\Index.cshtml" />
+      <None Include="Views\Basket\_items.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\..\Infrastructure\Infrastructure\Infrastructure.csproj" />
     </ItemGroup>
 

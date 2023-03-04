@@ -1,5 +1,6 @@
 using Catalog.Host.Data;
 using Catalog.Host.Data.Entities;
+using Catalog.Host.Data.Entities.Interfaces;
 using Catalog.Host.Extensions;
 using Catalog.Host.Repositories.Interfaces;
 using Catalog.Host.Services.Interfaces;
@@ -20,14 +21,14 @@ public class CatalogTypeRepository : ICatalogTypeRepository
         _logger = logger;
     }
 
-    public async Task<int?> AddAsync(CatalogType type)
+    public async Task<int?> AddAsync(ICatalogType type)
     {
         var item = await _dbContext.AddAsync(type);
         await _dbContext.SaveChangesAsync();
         return item.Entity.Id;
     }
 
-    public async Task<bool> DeleteAsync(CatalogType type)
+    public async Task<bool> DeleteAsync(ICatalogType type)
     {
         var item = await _dbContext.CatalogTypes
            .SingleAsync(t => t.Equal(type));
@@ -41,7 +42,7 @@ public class CatalogTypeRepository : ICatalogTypeRepository
         return true;
     }
 
-    public async Task<bool> UpdateAsync(int id, CatalogType type)
+    public async Task<bool> UpdateAsync(int id, ICatalogType type)
     {
         var item = await _dbContext.CatalogTypes
            .FindAsync(id);

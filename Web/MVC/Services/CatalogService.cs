@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using MVC.Dtos;
 using MVC.Models.Enums;
 using MVC.Services.Interfaces;
-using MVC.ViewModels;
+using MVC.ViewModels.Models;
 
 namespace MVC.Services;
 
@@ -36,7 +36,7 @@ public class CatalogService : ICatalogService
             filters.Add(CatalogTypeFilter.Type, type.Value);
         }
         
-        var request = $"{_settings.Value.CatalogUrl }/Items";
+        var request = $"{_settings.Value.CatalogUrl}/Items";
         _logger.LogInformation($"Before sending request on {request} to take page #{page} with {take} page size with");
         var result = await _httpClient.SendAsync<Catalog, PaginatedItemsRequest<CatalogTypeFilter>>(request,
            HttpMethod.Post, 

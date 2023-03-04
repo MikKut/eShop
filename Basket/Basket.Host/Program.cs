@@ -56,6 +56,9 @@ builder.Services.AddTransient<IJsonConvertWrapper, JsonConvertWrapper>();
 builder.Services.AddTransient<IRedisCacheConnectionService, RedisCacheConnectionService>();
 builder.Services.AddTransient<ICacheService, CacheService>();
 builder.Services.AddTransient<IBasketService, BasketService>();
+builder.Services.AddTransient<IOrderService, OrderService>();
+builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<IHttpClientService, HttpClientService>();
 
 builder.Services.AddCors(options =>
 {

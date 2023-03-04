@@ -13,7 +13,7 @@ using Microsoft.OpenApi.Models;
 using MVC.Controllers;
 using MVC.Services;
 using MVC.Services.Interfaces;
-using MVC.ViewModels;
+using MVC.ViewModels.Models;
 
 var configuration = GetConfiguration();
 
@@ -58,7 +58,6 @@ builder.Services.AddAuthentication(options =>
 
 
 builder.Services.Configure<AppSettings>(configuration);
-
 builder.Services.AddHttpClient();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

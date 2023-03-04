@@ -1,0 +1,48 @@
+﻿@model MVC.ViewModels.BasketViewModels.BasketIndexViewModel
+
+
+<section class="esh-catalog-hero">
+    <div class="container">
+    </div>
+</section>
+
+<section class="esh-catalog-filters">
+    <div class="container">
+        <form asp-action="Index" asp-controller="Basket" method="post">
+            <label class="esh-catalog-label" data-title="type">
+                <select asp-for="Total" asp-items="@(new SelectList(Model.CatalogBasketItems))" class="esh-catalog-filter"></select>
+            </label>
+            <input class="esh-catalog-send" type="image" src="~/images/arrow-right.svg" />
+        </form>
+    </div>
+</section>
+
+<div class="container">
+    <div class="row">
+        <br />
+        @if(ViewBag.BasketInoperativeMsg != null)
+        {
+        <div class="alert alert-warning" role="alert">
+            &nbsp;@ViewBag.BasketInoperativeMsg
+        </div>
+        }
+    </div>
+
+    @if (Model.CatalogBasketItems.Count() > 0)
+    {
+    <div class="esh-catalog-items row">
+        @foreach (var catalogItem in Model.CatalogBasketItems)
+            {
+        <div class="esh-catalog-item col-md-4">
+            <partial name="_items" model="catalogItem" />
+        </div>
+            }
+    </div>
+    }
+    else
+    {
+    <div class="esh-catalog-items row">
+        THERE ARE NO RESULTS THAT MATCH YOUR SEARCH
+    </div>
+    }
+</div>

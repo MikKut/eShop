@@ -1,6 +1,8 @@
+using Catalog.Host.Data.Entities.Interfaces;
+
 namespace Catalog.Host.Data.Entities;
 
-public class CatalogItem
+public class CatalogItem : ICatalogItem
 {
     public int Id { get; set; }
 

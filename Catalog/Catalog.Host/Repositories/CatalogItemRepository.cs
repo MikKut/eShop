@@ -1,5 +1,6 @@
 using Catalog.Host.Data;
 using Catalog.Host.Data.Entities;
+using Catalog.Host.Data.Entities.Interfaces;
 using Catalog.Host.Extensions;
 using Catalog.Host.Models.Dtos;
 using Catalog.Host.Repositories.Interfaces;
@@ -21,14 +22,14 @@ public class CatalogItemRepository : ICatalogItemRepository
         _logger = logger;
     }
 
-    public async Task<int?> AddAsync(CatalogItem itemToAdd)
+    public async Task<int?> AddAsync(ICatalogItem itemToAdd)
     {
         var item = await _dbContext.AddAsync(itemToAdd);
         await _dbContext.SaveChangesAsync();
         return item.Entity.Id;
     }
 
-    public async Task<bool> DeleteAsync(CatalogItem itemToDelete)
+    public async Task<bool> DeleteAsync(ICatalogItem itemToDelete)
     {
         var item = await _dbContext.CatalogItems
            .SingleAsync(t => t.Equal(itemToDelete));
@@ -43,7 +44,7 @@ public class CatalogItemRepository : ICatalogItemRepository
         return true;
     }
 
-    public async Task<bool> UpdateAsync(int id, CatalogItem itemToUpdate)
+    public async Task<bool> UpdateAsync(int id, ICatalogItem itemToUpdate)
     {
         var item = await _dbContext.CatalogItems
            .FindAsync(id);

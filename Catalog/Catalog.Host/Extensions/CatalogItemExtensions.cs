@@ -1,10 +1,10 @@
-﻿using Catalog.Host.Data.Entities;
+﻿using Catalog.Host.Data.Entities.Interfaces;
 
 namespace Catalog.Host.Extensions
 {
     public static class CatalogItemExtensions
     {
-        public static bool Equal(this CatalogItem firstObj, CatalogItem secondObj)
+        public static bool Equal(this ICatalogItem firstObj, ICatalogItem secondObj)
         {
             if (firstObj == null || secondObj == null)
             {

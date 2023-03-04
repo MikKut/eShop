@@ -1,5 +1,6 @@
 using Catalog.Host.Data;
 using Catalog.Host.Data.Entities;
+using Catalog.Host.Data.Entities.Interfaces;
 using Catalog.Host.Extensions;
 using Catalog.Host.Repositories.Interfaces;
 using Catalog.Host.Services.Interfaces;
@@ -20,14 +21,14 @@ public class CatalogBrandRepository : ICatalogBrandRepository
         _logger = logger;
     }
 
-    public async Task<int?> AddAsync(CatalogBrand brand)
+    public async Task<int?> AddAsync(ICatalogBrand brand)
     {
         var item = await _dbContext.CatalogBrands.AddAsync(brand);
         await _dbContext.SaveChangesAsync();
         return item.Entity.Id;
     }
 
-    public async Task<bool> DeleteAsync(CatalogBrand brand)
+    public async Task<bool> DeleteAsync(ICatalogBrand brand)
     {
         var item = await _dbContext.CatalogBrands
            .SingleAsync(t => t.Equal(brand));
@@ -41,7 +42,7 @@ public class CatalogBrandRepository : ICatalogBrandRepository
         return true;
     }
 
-    public async Task<bool> UpdateAsync(int id, CatalogBrand brand)
+    public async Task<bool> UpdateAsync(int id, ICatalogBrand brand)
     {
         var item = await _dbContext.CatalogBrands
            .FindAsync(id);

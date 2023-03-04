@@ -34,6 +34,20 @@ namespace IdentityServer
                         new Scope("catalog.catalogbrand"),
                         new Scope("catalog.catalogtype")
                     },
+                },
+                new ApiResource("basket")
+                {
+                    Scopes = new List<Scope>
+                    {
+                        new Scope("basket.basketbff"),
+                    },
+                },
+                new ApiResource("order")
+                {
+                    Scopes = new List<Scope>
+                    {
+                        new Scope("order.makeorder")
+                    },
                 }
             };
         }
@@ -94,6 +108,34 @@ namespace IdentityServer
                     AllowedScopes =
                     {
                         "mvc"
+                    }
+                },
+                 new Client
+                {
+                    ClientId = "basket",
+                    ClientName = "Basket.Host",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+                    RedirectUris = { $"{configuration["BasketApi"]}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{configuration["BasketApi"]}/swagger/" },
+
+                    AllowedScopes =
+                    {
+                        "mvc", "order.makeorder"
+                    }
+                },
+                 new Client
+                {
+                    ClientId = "order",
+                    ClientName = "Basket.Host",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+                    RedirectUris = { $"{configuration["BasketApi"]}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{configuration["BasketApi"]}/swagger/" },
+
+                    AllowedScopes =
+                    {
+                       "basket.basketbff"
                     }
                 },
             };

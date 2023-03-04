@@ -1,5 +1,5 @@
 using MVC.Services.Interfaces;
-using MVC.ViewModels;
+using MVC.ViewModels.Models;
 
 namespace MVC.Services;
 
