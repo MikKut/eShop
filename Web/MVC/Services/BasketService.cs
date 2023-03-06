@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MVC.Controllers;
 using MVC.Models.Dto;
 using MVC.Models.Responses;
 using MVC.Services.Interfaces;
@@ -12,10 +13,13 @@ namespace MVC.Services
     {
         private readonly IOptions<AppSettings> _settings;
         private readonly IHttpClientService _httpClient;
+        private readonly ILogger<BasketController> _logger;
         public BasketService(
             IOptions<AppSettings> settings,
-            IHttpClientService httpClient)
+            IHttpClientService httpClient,
+            ILogger<BasketController> logger)
         {
+            _logger = logger;
             _settings = settings;
             _httpClient = httpClient;
         }
@@ -23,11 +27,16 @@ namespace MVC.Services
         public async Task<SuccessfulResultResponse> AddToBasket(OrderItemDto order)
         {
             var items = await GetBasketItems(order.User);
+            _logger.LogInformation($"Before adding from basket: items are null:{items is null}");
+            _logger.LogWarning($"- {items.Count()}");
             items = items.Concat(new[] { order.Item });
-
-            var result = await _httpClient.SendAsync<SuccessfulResultResponse, OrderDto>
+            _logger.LogInformation($"After adding to basket: items are null:{items is null}");
+            _logger.LogWarning($"- {items.Count()}");
+            var result = await _httpClient.SendAsync<SuccessfulResultResponse, OrderDto<CatalogItemDto>>
                 ($"{_settings.Value.BasketUrl}/AddItemsToBasket",
-                HttpMethod.Post, new OrderDto { User = order.User, Items = items});
+                HttpMethod.Post, new OrderDto<CatalogItemDto> { User = order.User, Orders = items});
+            _logger.LogInformation($"After add-request to basket");
+
             return result;
         }
 
@@ -39,20 +48,27 @@ namespace MVC.Services
                 return new SuccessfulResultResponse() { IsSuccessful = false, Message = "There is no such item in bucket" };
             }
 
+            _logger.LogInformation($"Before removing from basket: items are null:{items is null}");
+            _logger.LogWarning($"- {items.Count()}");
             var itemsList = items.ToList();
             itemsList.Remove(order.Item);
             items = itemsList;
-            var result = await _httpClient.SendAsync<SuccessfulResultResponse, OrderDto>
+            _logger.LogInformation($"After removing from basket: items are null:{items is null}");
+            _logger.LogWarning($"- {items.Count()}");
+            var result = await _httpClient.SendAsync<SuccessfulResultResponse, OrderDto<CatalogItemDto>>
                 ($"{_settings.Value.BasketUrl}/AddItemsToBasket",
-                HttpMethod.Post, new OrderDto { User = order.User, Items = items });
+                HttpMethod.Post, new OrderDto<CatalogItemDto> { User = order.User, Orders = items });
+            _logger.LogInformation($"After delete-request to basket");
             return result;
         }
 
         public async Task<SuccessfulResultResponse> CommitPurchases(UserDto user)
         {
+            _logger.LogInformation($"Before commiting purchase");
             var result = await _httpClient.SendAsync<SuccessfulResultResponse, UserDto>
                   ($"{_settings.Value.BasketUrl}/CommitPurchases",
                   HttpMethod.Post, user);
+            _logger.LogInformation($"After commiting purchase");
             return result;
         }
 
@@ -77,9 +93,12 @@ namespace MVC.Services
 
         private async Task<IEnumerable<CatalogItemDto>> GetBasketItems(UserDto user)
         {
+            _logger.LogInformation($"Before getting from basket");
             var result = await _httpClient.SendAsync<GroupedItems<CatalogItemDto>, UserDto>
                 ($"{_settings.Value.BasketUrl}/GetBasketItems",
                 HttpMethod.Post, user);
+            _logger.LogInformation($"After getting from basket: items are null:{result is null}");
+            _logger.LogWarning($"- {result.Data.Count()}");
             return result.Data;
         }
     }

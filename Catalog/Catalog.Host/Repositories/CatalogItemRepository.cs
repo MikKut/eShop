@@ -63,4 +63,18 @@ public class CatalogItemRepository : ICatalogItemRepository
         await _dbContext.SaveChangesAsync();
         return true;
     }
+
+    public async Task<bool> UpdateAvailableStockAsync(int id, int availableStock)
+    {
+        var item = await _dbContext.CatalogItems
+           .FindAsync(id);
+        if (item == null)
+        {
+            return false;
+        }
+
+        item!.AvailableStock = availableStock;
+        await _dbContext.SaveChangesAsync();
+        return true;
+    }
 }

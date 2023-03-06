@@ -2,6 +2,7 @@ using AutoMapper;
 using Catalog.Host.Data;
 using Catalog.Host.Data.Entities;
 using Catalog.Host.Models.Dtos;
+using Catalog.Host.Models.Requests;
 using Catalog.Host.Repositories;
 using Catalog.Host.Repositories.Interfaces;
 using Catalog.Host.Services.Interfaces;
@@ -37,5 +38,10 @@ public class CatalogItemService : BaseDataService<ApplicationDbContext>, ICatalo
     public async Task<bool> UpdateAsync(int id, CatalogItemDto itemToUpdate)
     {
         return await ExecuteSafeAsync(() => _catalogItemRepository.UpdateAsync(id, _mapper.Map<CatalogItem>(itemToUpdate)));
+    }
+
+    public async Task<bool> UpdateAvailableStockAsync(UpdateAvailableStockRequest itemToUpdate)
+    {
+        return await ExecuteSafeAsync(() => _catalogItemRepository.UpdateAvailableStockAsync(itemToUpdate.Id, itemToUpdate.AvailableStock));
     }
 }

@@ -7,12 +7,12 @@ namespace Order.Host.Services
     {
         public async Task<SuccessfulResultResponse> CommitTrasactionForTheUser(int ID, decimal amount)
         {
-            var result = new SuccessfulResultResponse() { IsSuccessful = true };
+            var result = new SuccessfulResultResponse() { IsCompletedSuccessfully = true };
             return result;
         }
         public async Task<SuccessfulResultResponse> CheckTrasactionForAvailabilityForUser(int ID, decimal amount)
         {
-            var result = new SuccessfulResultResponse() { IsSuccessful = true };
+            var result = new SuccessfulResultResponse() { IsCompletedSuccessfully = true };
             return result;
         }
     }

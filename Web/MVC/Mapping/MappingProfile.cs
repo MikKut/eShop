@@ -18,7 +18,7 @@ namespace MVC.Mapping
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => Int32.Parse(src.Id)))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => string.Join(' ', src.Name, src.LastName)));
             CreateMap<CatalogItem, CatalogItemDto>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
                 .ForMember(dest => dest.BrandName, opt => opt.MapFrom(src => src.CatalogBrand.Brand))
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))

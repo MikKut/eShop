@@ -23,13 +23,20 @@ namespace Order.Host.Services
         public async Task<SuccessfulResultResponse> HandlePurchase(PurchaseRequest<CatalogItemDto> request)
         {
             var totalCost = request.Data.Sum(x => x.Price);
-            var resultOfCommit = _paymentService.CheckTrasactionForAvailabilityForUser(request.ID, totalCost);
+            var resultOfCommit = await _paymentService.CheckTrasactionForAvailabilityForUser(request.ID, totalCost);
             if (!resultOfCommit.IsCompletedSuccessfully)
             {
-                return await resultOfCommit;
+                return resultOfCommit;
             }
 
-            return new SuccessfulResultResponse() { IsSuccessful = true };
+            resultOfCommit = await _catalogItemService.ReduceQuantityOfItemsAsync(request.Data);
+            if (!resultOfCommit.IsCompletedSuccessfully)
+            {
+                return resultOfCommit;
+            }
+
+            resultOfCommit = await _paymentService.CommitTrasactionForTheUser(request.ID, totalCost);
+            return resultOfCommit;
         }
     }
 }

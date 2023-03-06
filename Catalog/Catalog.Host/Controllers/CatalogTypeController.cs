@@ -40,7 +40,7 @@ public class CatalogTypeController : ControllerBase
     public async Task<IActionResult> Delete(DeleteRequest<CatalogTypeDto> request)
     {
         var result = await _catalogTypeService.DeleteAsync(request.Data);
-        return Ok(new IsSuccededResponse() { IsSucceeded = result });
+        return Ok(new IsSuccededResponse() { IsCompletedSuccessfully = result });
     }
 
     [HttpPost]
@@ -49,6 +49,6 @@ public class CatalogTypeController : ControllerBase
     public async Task<IActionResult> Update(UpdateRequest<CatalogTypeDto> request)
     {
         var result = await _catalogTypeService.UpdateAsync(request.ID, request.NewData);
-        return Ok(new IsSuccededResponse() { IsSucceeded = result });
+        return Ok(new IsSuccededResponse() { IsCompletedSuccessfully = result });
     }
 }

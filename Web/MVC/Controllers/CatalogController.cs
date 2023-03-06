@@ -60,8 +60,11 @@ public class CatalogController : Controller
     public async Task<IActionResult> AddItemToBucket(int id)
     {
         var catalogItem = await _catalogService.GetCatalogItemById(id);
-        if (catalogItem == null) { return RedirectToAction("Index", "Catalog"); }
+        if (catalogItem == null) 
+        {
+            return RedirectToAction("Index", "Catalog"); 
+        }
 
-        return RedirectToAction("Index", "Basket",_mapper.Map<CatalogItemDto>(catalogItem));
+        return RedirectToAction("AddToBasket", "Basket",_mapper.Map<CatalogItemDto>(catalogItem));
     }
 }

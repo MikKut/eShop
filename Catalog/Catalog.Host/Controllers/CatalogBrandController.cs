@@ -40,7 +40,7 @@ public class CatalogBrandController : ControllerBase
     public async Task<IActionResult> Delete(DeleteRequest<CatalogBrandDto> request)
     {
         var result = await _catalogBrandService.DeleteAsync(request.Data);
-        return Ok(new IsSuccededResponse() { IsSucceeded = result });
+        return Ok(new IsSuccededResponse() { IsCompletedSuccessfully = result });
     }
 
     [HttpPost]
@@ -49,6 +49,6 @@ public class CatalogBrandController : ControllerBase
     public async Task<IActionResult> Update(UpdateRequest<CatalogBrandDto> request)
     {
         var result = await _catalogBrandService.UpdateAsync(request.ID, request.NewData);
-        return Ok(new IsSuccededResponse() { IsSucceeded = result });
+        return Ok(new IsSuccededResponse() { IsCompletedSuccessfully = result });
     }
 }

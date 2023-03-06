@@ -53,7 +53,7 @@ builder.Services.Configure<RedisConfig>(
     builder.Configuration.GetSection("Redis"));
 builder.Services.AddAuthorization(configuration);
 builder.Services.AddHttpClient();
-
+builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddTransient<IJsonConvertWrapper, JsonConvertWrapper>();
 builder.Services.AddTransient<IRedisCacheConnectionService, RedisCacheConnectionService>();
 builder.Services.AddTransient<ICacheService, CacheService>();

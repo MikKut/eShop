@@ -5,6 +5,6 @@ namespace Order.Host.Services.Interfaces
 {
     public interface ICatalogItemService
     {
-        Task<SuccessfulResultResponse> ReduceQuantityOfItems(IEnumerable<CatalogItemDto> Data);
+        Task<SuccessfulResultResponse> ReduceQuantityOfItemsAsync(IEnumerable<CatalogItemDto> data);
     }
 }

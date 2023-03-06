@@ -42,7 +42,7 @@ public class HttpClientService : IHttpClientService
                 new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8, "application/json");
         }
 
-        _logger.LogInformation($"Content of the request:\n{httpMessage.Content?.ToString()}\n");
+        _logger.LogInformation($"Content of the request:\n{httpMessage.Content?.ToString()} {httpMessage.Content}\n");
         var result = await client.SendAsync(httpMessage);
 
         if (result.IsSuccessStatusCode)

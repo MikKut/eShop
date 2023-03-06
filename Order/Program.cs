@@ -4,7 +4,11 @@ using Infrastructure.Services.Interfaces;
 using Infrastructure.Services;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
-using Order.Host.Configuration;
+using Order.Host;
+using Microsoft.Extensions.Options;
+using Order.Host.Services.Interfaces;
+using Order.Host.Services;
+using Order.Host.Models.Dtos;
 
 var configuration = GetConfiguration();
 
@@ -49,24 +53,15 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.AddConfiguration();
-builder.Services.Configure<OrderConfig>(configuration);
+builder.Services.Configure<AppSettings>(configuration);
 
 builder.Services.AddAuthorization(configuration);
 
-builder.Services.AddAutoMapper(typeof(Program));
-
-builder.Services.AddTransient<IClientRepository, ClientRepository>();
-builder.Services.AddTransient<IProductRepository, ProductRepository>();
-builder.Services.AddTransient<IPurchaseRepository, PurchaseRepository>();
+builder.Services.AddTransient<IPaymentService, PaymentService>();
+builder.Services.AddTransient<ICatalogItemService, CatalogItemService>();
+builder.Services.AddTransient<IOrderService<CatalogItemDto>, OrderService>();
 builder.Services.AddTransient<IInternalHttpClientService, InternalHttpClientService>();
 builder.Services.AddHttpClient();
-
-builder.Services.AddTransient<IClientService, ClientService>();
-builder.Services.AddTransient<IProductService, ProductService>();
-builder.Services.AddTransient<IPurchaseSevice, PurchaseService>();
-
-builder.Services.AddDbContextFactory<ApplicationDbContext>(opts => opts.UseNpgsql(configuration["ConnectionString"]!));
-builder.Services.AddScoped<IDbContextWrapper<ApplicationDbContext>, DbContextWrapper<ApplicationDbContext>>();
 
 builder.Services.AddCors(options =>
 {

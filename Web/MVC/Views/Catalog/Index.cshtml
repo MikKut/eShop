@@ -40,11 +40,11 @@
     <div class="esh-catalog-items row">
         @foreach (var catalogItem in Model.CatalogItems)
         {
-        <a asp-controller="Catalog" asp-action="AddItemToBucket" asp-route-id="@catalogItem.Id">
-            <div class="esh-catalog-item col-md-4">
+        <div class="esh-catalog-item col-md-4">
+            <a asp-controller="Catalog" asp-action="AddItemToBucket" asp-route-id="@catalogItem.Id">
                 <partial name="_product" model="catalogItem" />
-            </div>
-        </a>
+            </a>
+        </div>
         }
     </div>
 

@@ -50,7 +50,8 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.Configure<AppSettings>(configuration);
 builder.Services.AddHttpClient();
-builder.Services.AddAutoMapper(typeof(Program)); 
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddSingleton<ILogger<BasketService>, Logger<BasketService>>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IHttpClientService, HttpClientService>();
 builder.Services.AddTransient<ICatalogService, CatalogService>();

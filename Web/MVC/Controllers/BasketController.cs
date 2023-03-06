@@ -41,6 +41,7 @@ namespace MVC.Controllers
                 return View("Error");
             }
 
+            _logger.LogWarning($"Adding: In controller Items are {order is null}");
             var isSuccessfulResultResponse = await _basketService.RemoveFromBasket(new OrderItemDto() { User = userDto, Item = order });
             _logger.LogInformation($"Result of removing {order.TypeName} \"{order.Name}\" of {order.BrandName} to bakset is {isSuccessfulResultResponse}");
             return RedirectToAction("Index");
@@ -53,9 +54,9 @@ namespace MVC.Controllers
                 _logger.LogError("User dto is null");
                 return View("Error");
             }
-
+            _logger.LogWarning($"Adding: In controller Items are {order is null}");
             var isSuccessfulResultResponse = await _basketService.AddToBasket(new OrderItemDto() { User = userDto, Item = order });
-            _logger.LogInformation($"Result of adding {order.TypeName} \"{order.Name}\" of {order.BrandName} to basket is {isSuccessfulResultResponse}");
+            _logger.LogInformation($"Result of adding {order.TypeName} \"{order.Name}\" of {order.BrandName} to basket is {isSuccessfulResultResponse}.");
             return RedirectToAction("Index", "Catalog");
         }
         public async Task<IActionResult> CommitPurchases()

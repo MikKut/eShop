@@ -36,6 +36,7 @@ public class BasketBffController : ControllerBase
     {
         try
         {
+            _logger.LogInformation($"Request to add item:\nUser: {request.User.UserId}/{request.User.UserName},\nCount of order items: {request.Orders.Count()}");
             await _basketService.AddItems(request);
             return Ok();
         }
@@ -52,6 +53,7 @@ public class BasketBffController : ControllerBase
     {
         try
         {
+            _logger.LogInformation($"Request to add item:\nUser: {user.UserId}/{user.UserName}");
             var response = await _basketService.GetItems(user);
             return Ok(response);
         }
@@ -68,6 +70,7 @@ public class BasketBffController : ControllerBase
     {
         try
         {
+            _logger.LogInformation($"Request to add item:\nUser: {user.UserId}/{user.UserName}");
             var response = await _basketService.GetItems(user);
             var result = await _orderService.CommitPurchases(new OrderDto<CatalogItemDto>() { Orders = response.Data, User = user });
             return Ok(result);
