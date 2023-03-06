@@ -1,5 +1,4 @@
 ﻿using Basket.Host.Models.Dtos;
-using Basket.Host.Models.Items;
 using Basket.Host.Services.Interfaces;
 using MVC.Models.Dto;
 

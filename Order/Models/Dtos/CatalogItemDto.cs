@@ -1,6 +1,6 @@
-﻿namespace Basket.Host.Models.Items
+﻿namespace Order.Host.Models.Dtos
 {
-    public class CatalogItem
+    public class CatalogItemDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

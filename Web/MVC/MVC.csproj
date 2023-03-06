@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -24,7 +24,6 @@
 
     <ItemGroup>
       <None Include="Views\Basket\Index.cshtml" />
-      <None Include="Views\Basket\_items.cshtml" />
     </ItemGroup>
 
     <ItemGroup>

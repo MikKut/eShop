@@ -1,21 +1,4 @@
-﻿@model MVC.ViewModels.BasketViewModels.BasketIndexViewModel
-
-
-<section class="esh-catalog-hero">
-    <div class="container">
-    </div>
-</section>
-
-<section class="esh-catalog-filters">
-    <div class="container">
-        <form asp-action="Index" asp-controller="Basket" method="post">
-            <label class="esh-catalog-label" data-title="type">
-                <select asp-for="Total" asp-items="@(new SelectList(Model.CatalogBasketItems))" class="esh-catalog-filter"></select>
-            </label>
-            <input class="esh-catalog-send" type="image" src="~/images/arrow-right.svg" />
-        </form>
-    </div>
-</section>
+﻿@model MVC.ViewModels.Models.CatalogBasketItem.BasketListOfItems
 
 <div class="container">
     <div class="row">
@@ -28,15 +11,30 @@
         }
     </div>
 
-    @if (Model.CatalogBasketItems.Count() > 0)
+    @if (Model.CatalogItems.Count() > 0)
     {
     <div class="esh-catalog-items row">
-        @foreach (var catalogItem in Model.CatalogBasketItems)
-            {
+        @foreach (var item in Model.CatalogItems)
+        {
         <div class="esh-catalog-item col-md-4">
-            <partial name="_items" model="catalogItem" />
+            <label>Type: @item.Key.TypeName </label>
+            <label>Brand: @item.Key.BrandName </label>
+            <label>Name: @item.Key.Name </label>
+            <label>Price: @item.Key.Price </label>
+            <label>Amount: @item.Value </label>
+            <label>Total price: @TotalItemPrice(item) $ </label>
+            <form asp-controller="Basket" asp-action="RemoveFromBasket" asp-route-order="@item">
+                <input type="submit" value="remove">
+            </form>
         </div>
             }
+            <label>Total price: @TotalPrice() $ </label>
+        <form asp-controller="Basket" asp-action="CommitPurchases">
+            <input type="submit" value="commit purchase">
+        </form>
+        <form asp-controller="Catalog" asp-action="Index">
+            <input type="submit" value="return to catalog"/>
+        </form>
     </div>
     }
     else
@@ -44,5 +42,16 @@
     <div class="esh-catalog-items row">
         THERE ARE NO RESULTS THAT MATCH YOUR SEARCH
     </div>
+    }
+    @{
+        decimal TotalPrice()
+        {
+            return Model.CatalogItems.Sum(kv => TotalItemPrice(kv));
+        }
+
+        decimal TotalItemPrice(KeyValuePair<MVC.Models.Dto.CatalogItemDto,int > keyValue)
+        {
+            return keyValue.Value * keyValue.Key.Price;
+        }
     }
 </div>

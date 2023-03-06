@@ -1,4 +1,4 @@
-﻿using Basket.Host.Models.Items;
+﻿using Basket.Host.Models.Dtos;
 using System.ComponentModel.DataAnnotations;
 
 namespace Basket.Host.Models.Requests
@@ -6,6 +6,6 @@ namespace Basket.Host.Models.Requests
     public class AddItemsRequest
     {
         [Required]
-        public IEnumerable<CatalogItem> Data { get; set; } = null!;
+        public IEnumerable<CatalogItemDto> Data { get; set; } = null!;
     }
 }

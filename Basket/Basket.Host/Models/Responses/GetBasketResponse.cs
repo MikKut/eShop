@@ -1,9 +1,9 @@
-﻿using Basket.Host.Models.Items;
+﻿using Basket.Host.Models.Dtos;
 
 namespace Basket.Host.Models.Responses
 {
     public class GetBasketResponse
     {
-        public IEnumerable<CatalogItem> Data { get; set; } = null!;
+        public IEnumerable<CatalogItemDto> Data { get; set; } = null!;
     }
 }

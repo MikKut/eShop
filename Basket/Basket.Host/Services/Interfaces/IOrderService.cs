@@ -7,6 +7,6 @@ namespace Basket.Host.Services.Interfaces
     public interface IOrderService<T>
         where T : class
     {
-        Task<SuccessfulResultResponse> CommitPurchases(BasketDto<T> request);
+        Task<SuccessfulResultResponse> CommitPurchases(OrderDto<T> request);
     }
 }

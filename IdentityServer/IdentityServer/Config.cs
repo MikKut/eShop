@@ -127,14 +127,33 @@ namespace IdentityServer
                  new Client
                 {
                     ClientId = "order",
-                    ClientName = "Basket.Host",
+                    ClientName = "Order.Host",
                     AllowedGrantTypes = GrantTypes.Implicit,
                     AllowAccessTokensViaBrowser = true,
-                    RedirectUris = { $"{configuration["BasketApi"]}/swagger/oauth2-redirect.html" },
-                    PostLogoutRedirectUris = { $"{configuration["BasketApi"]}/swagger/" },
+                    RedirectUris = { $"{configuration["OrderApi"]}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{configuration["OrderApi"]}/swagger/" },
 
                     AllowedScopes =
                     {
+                       "catalog.catalogitem",
+                       "mvc",
+                       "basket.basketbff"
+                    }
+                },
+                 new Client
+                {
+                    ClientId = "orderswaggerui",
+                    ClientName = "Order Swagger UI",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RedirectUris = { $"{configuration["OrderApi"]}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{configuration["OrderApi"]}/swagger/" },
+
+                    AllowedScopes =
+                    {
+                       "catalog.catalogitem",
+                       "mvc",
                        "basket.basketbff"
                     }
                 },

@@ -2,8 +2,11 @@
 using Infrastructure.Identity;
 using MVC.Services.Interfaces;
 using MVC.ViewModels.CatalogViewModels;
+using MVC.ViewModels.Models;
 using MVC.ViewModels.Pagination;
 using System.Net;
+using AutoMapper;
+using MVC.Models.Dto;
 
 namespace MVC.Controllers;
 
@@ -11,11 +14,13 @@ public class CatalogController : Controller
 {
     private  readonly ICatalogService _catalogService;
     private readonly ILogger<CatalogController> _logger;
+    private readonly IMapper _mapper;
 
-    public CatalogController(ICatalogService catalogService, ILogger<CatalogController> logger)
+    public CatalogController(ICatalogService catalogService, ILogger<CatalogController> logger, IMapper mapper)
     {
         _logger = logger;
         _catalogService = catalogService;
+        _mapper = mapper;
     }
 
     [AllowAnonymous]
@@ -50,5 +55,13 @@ public class CatalogController : Controller
         vm.PaginationInfo.Next = (vm.PaginationInfo.ActualPage == vm.PaginationInfo.TotalPages - 1) ? "is-disabled" : "";
         vm.PaginationInfo.Previous = (vm.PaginationInfo.ActualPage == 0) ? "is-disabled" : "";
         return View(vm);
+    }
+
+    public async Task<IActionResult> AddItemToBucket(int id)
+    {
+        var catalogItem = await _catalogService.GetCatalogItemById(id);
+        if (catalogItem == null) { return RedirectToAction("Index", "Catalog"); }
+
+        return RedirectToAction("Index", "Basket",_mapper.Map<CatalogItemDto>(catalogItem));
     }
 }

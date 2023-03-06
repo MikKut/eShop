@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Basket.Host.Models.Requests
+namespace Order.Host.Models.Requests
 {
     public class PurchaseRequest<T>
-        where T : class
+         where T : class
     {
         [Required]
         public IEnumerable<T> Data { get; set; } = null!;

@@ -1,62 +1,93 @@
 ﻿using AutoMapper;
 using MVC.Models.Dto;
 using MVC.Services.Interfaces;
-using MVC.ViewModels.BasketViewModels;
 using MVC.ViewModels.Models;
+using MVC.ViewModels.Models.CatalogBasketItem;
 
 namespace MVC.Controllers
 {
     public class BasketController : Controller
     {
         private readonly IBasketService _basketService;
-        private readonly IIdentityParser<ApplicationUser> _identityParser;
         private readonly ILogger<BasketController> _logger;
         private readonly IMapper _mapper;
 
         public BasketController(
             IBasketService basketService,
-            IIdentityParser<ApplicationUser> identityParser,
-            IMapper mapper)
+            IMapper mapper,
+            ILogger<BasketController> logger)
         {
+            _logger = logger;
             _basketService = basketService;
-            _identityParser = identityParser;
             _mapper = mapper;
         }
         public async Task<IActionResult> Index()
         {
-            var user = GetUser();
-            var basketViewModel = new BasketIndexViewModel()
+            var userDto = GetUserDto();
+            if (userDto == null)
             {
-                CatalogBasketItems = await _basketService.GetBasketItems(_mapper.Map<UserDto>(user)),
-                Total = 12
-            };
+                _logger.LogError("User dto is null");
+                return View("Error");
+            }
+            var basketListOfItems = new BasketListOfItems() { CatalogItems = await _basketService.GetGroupedBasketItems(userDto) };
+            return View(basketListOfItems);
+        }
+        public async Task<IActionResult> RemoveFromBasket(CatalogItemDto order)
+        {
+            var userDto = GetUserDto();
+            if (userDto == null)
+            {
+                _logger.LogError("User dto is null");
+                return View("Error");
+            }
 
-            return View(basketViewModel);
-        }
-        public async Task<IActionResult> RemoveFromBasket(OrderDto order)
-        {
-            var user = GetUser();
-            var isSuccessfulResultResponse = await _basketService.RemoveFromBasket(new OrderDto() { User = _mapper.Map<UserDto>(user), Item = order.Item });
-            _logger.LogInformation($"Result of removing {order.Item.TypeName} \"{order.Item.Name}\" of {order.Item.BrandName} to bakset is {isSuccessfulResultResponse}");
+            var isSuccessfulResultResponse = await _basketService.RemoveFromBasket(new OrderItemDto() { User = userDto, Item = order });
+            _logger.LogInformation($"Result of removing {order.TypeName} \"{order.Name}\" of {order.BrandName} to bakset is {isSuccessfulResultResponse}");
             return RedirectToAction("Index");
         }
-        public async Task<IActionResult> AddToBasket(OrderDto order)
+        public async Task<IActionResult> AddToBasket(CatalogItemDto order)
         {
-            var user = GetUser();
-            var isSuccessfulResultResponse = await _basketService.AddToBasket(new OrderDto() { User = _mapper.Map<UserDto>(user), Item = order.Item});
-            _logger.LogInformation($"Result of adding {order.Item.TypeName} \"{order.Item.Name}\" of {order.Item.BrandName} to basket is {isSuccessfulResultResponse}");
-            return RedirectToAction("Index");
+            var userDto = GetUserDto();
+            if (userDto == null)
+            {
+                _logger.LogError("User dto is null");
+                return View("Error");
+            }
+
+            var isSuccessfulResultResponse = await _basketService.AddToBasket(new OrderItemDto() { User = userDto, Item = order });
+            _logger.LogInformation($"Result of adding {order.TypeName} \"{order.Name}\" of {order.BrandName} to basket is {isSuccessfulResultResponse}");
+            return RedirectToAction("Index", "Catalog");
         }
         public async Task<IActionResult> CommitPurchases()
         {
-            var user = GetUser();
-            var isSuccessfulResultResponse = _basketService.CommitPurchases(_mapper.Map<UserDto>(user));
-            _logger.LogInformation($"Result of commiting purchases of {user.Id} \"{user.Name}\" is {isSuccessfulResultResponse}");
-            return View(_basketService.CommitPurchases(_mapper.Map<UserDto>(user)));
+            var userDto = GetUserDto();
+            if (userDto == null)
+            {
+                return View("Error");
+            }
+
+            var isSuccessfulResultResponse = _basketService.CommitPurchases(userDto);
+            _logger.LogInformation($"Result of commiting purchases of {userDto.UserId} \"{userDto.UserName}\" is {isSuccessfulResultResponse}");
+            return View(_basketService.CommitPurchases(userDto));
         }
-        private ApplicationUser GetUser()
+        private UserDto? GetUserDto()
         {
-            return _identityParser.Parse(User);
+            _logger.LogWarning($"User Is Authenticated: {User.Identity.IsAuthenticated}");
+            if (!User.Identity.IsAuthenticated)
+            {
+                return null;
+            }
+
+            int id;
+            if (!Int32.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out id))
+            {
+                _logger.LogWarning("Parsing is not successful");
+            }
+
+            _logger.LogInformation($"Id = {id}");
+            string name = User.Claims.FirstOrDefault(x => x.Type == "name")!.Value;
+            _logger.LogInformation($"Name = {name}");
+            return new UserDto { UserId = id, UserName = name! };
         }
     }
 }

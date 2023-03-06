@@ -1,4 +1,4 @@
-namespace MVC.Dtos;
+namespace MVC.Models.Requests;
 
 public class PaginatedItemsRequest<T>
     where T : struct, IConvertible

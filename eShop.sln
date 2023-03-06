@@ -70,13 +70,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basket.Host", "Basket\Baske
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basket.UnitTests", "Basket\Basket.UnitTests\Basket.UnitTests.csproj", "{43C03A05-452A-44C4-A464-986D679CE343}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backet", "Backet", "{59EC08EE-9143-47BD-BA9E-7B58F52D5ABC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Basket", "Basket", "{59EC08EE-9143-47BD-BA9E-7B58F52D5ABC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Order", "Order", "{9D623864-EA22-491B-9740-742DDAB93BFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.Host", "Order\Order.Host.csproj", "{AED4E416-C033-4090-970E-79D2076DF791}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.Host", "Order\Order.Host.csproj", "{AED4E416-C033-4090-970E-79D2076DF791}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Order.UnitTests", "Order.UnitTests\Order.UnitTests.csproj", "{5D7958AF-84A2-4BCA-8543-B8306EFE42AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Order.UnitTests", "Order.UnitTests\Order.UnitTests.csproj", "{5D7958AF-84A2-4BCA-8543-B8306EFE42AA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

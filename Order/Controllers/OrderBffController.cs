@@ -3,8 +3,10 @@ using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Order.Host.Models.Dtos;
+using Order.Host.Models.Requests;
 using Order.Host.Services.Interfaces;
-using Order.Models.Responses;
+using Order.Host.Models.Responses;
 using System.Net;
 
 namespace Order.Host.Controllers
@@ -16,12 +18,12 @@ namespace Order.Host.Controllers
     public class OrderBffController
     {
         private readonly ILogger<OrderBffController> _logger;
-        private readonly IOrderService _orderService;
+        private readonly IOrderService<CatalogItemDto> _orderService;
         private readonly IOptions<AppSettings> _config;
 
         public OrderBffController(
             ILogger<OrderBffController> logger,
-            IOrderService catalogService,
+            IOrderService<CatalogItemDto> catalogService,
             IOptions<AppSettings> config)
         {
             _logger = logger;
@@ -31,10 +33,9 @@ namespace Order.Host.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(SuccessfulResultResponse), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> CommitPurchases()
+        public async Task<SuccessfulResultResponse> CommitPurchases(PurchaseRequest<CatalogItemDto> request)
         {
-
-            return Ok(result);
+            return await _orderService.HandlePurchase(request);
         }
     }
 }

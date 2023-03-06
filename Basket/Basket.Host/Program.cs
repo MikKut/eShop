@@ -1,5 +1,6 @@
+using Basket.Host;
 using Basket.Host.Configurations;
-using Basket.Host.Models.Items;
+using Basket.Host.Models.Dtos;
 using Basket.Host.Services;
 using Basket.Host.Services.Interfaces;
 using Infrastructure.Extensions;
@@ -50,17 +51,18 @@ builder.Services.AddSwaggerGen(options =>
 builder.AddConfiguration();
 builder.Services.Configure<RedisConfig>(
     builder.Configuration.GetSection("Redis"));
-
 builder.Services.AddAuthorization(configuration);
+builder.Services.AddHttpClient();
 
 builder.Services.AddTransient<IJsonConvertWrapper, JsonConvertWrapper>();
 builder.Services.AddTransient<IRedisCacheConnectionService, RedisCacheConnectionService>();
 builder.Services.AddTransient<ICacheService, CacheService>();
 builder.Services.AddTransient<IBasketService, BasketService>();
-builder.Services.AddTransient<IOrderService<CatalogItem>, OrderService<CatalogItem>>();
+builder.Services.AddTransient<IOrderService<CatalogItemDto>, OrderService<CatalogItemDto>>();
 builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
-builder.Services.AddTransient<IHttpClientService, HttpClientService>();
-
+builder.Services.AddTransient<IInternalHttpClientService, InternalHttpClientService>();
+builder.Services.AddTransient<IBasketService, BasketService>();
+builder.Services.AddTransient<IKeyGeneratorService, KeyGeneratorService>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(

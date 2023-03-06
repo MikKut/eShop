@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Infrastructure.Services.Interfaces;
 using Microsoft.Extensions.Logging;
-using MVC.Dtos;
+using MVC.Models.Dto;
 using MVC.Models.Enums;
+using MVC.Models.Requests;
 using MVC.Services.Interfaces;
 using MVC.ViewModels.Models;
 
@@ -53,7 +54,7 @@ public class CatalogService : ICatalogService
     public async Task<IEnumerable<SelectListItem>> GetBrands()
     {
         var request = $"{_settings.Value.CatalogUrl}/GetBrands";
-        _logger.LogInformation($"Entered {nameof(GetBrands)} of {nameof(CatalogBrand)}. It is goint to send request on {request}");
+        _logger.LogInformation($"Entered {nameof(GetBrands)} of {nameof(CatalogBrand)}. It is going to send request on {request}");
         var result = await _httpClient.SendAsync<List<CatalogBrand>, object>(request,
             HttpMethod.Get, null);
         _logger.LogInformation($"Got result in {nameof(GetBrands)} of {nameof(CatalogBrand)}: after sending request on {request} result is null: {result == null}");
@@ -63,10 +64,22 @@ public class CatalogService : ICatalogService
     public async Task<IEnumerable<SelectListItem>> GetTypes()
     {
         var request = $"{_settings.Value.CatalogUrl}/GetTypes";
-        _logger.LogInformation($"Entered {nameof(GetTypes)} of {nameof(CatalogBrand)}. It is goint to send request on {request}");
+        _logger.LogInformation($"Entered {nameof(GetTypes)} of {nameof(CatalogBrand)}. It is going to send request on {request}");
         var result = await _httpClient.SendAsync<List<CatalogType>, object>(request,
             HttpMethod.Get, null);
         _logger.LogInformation($"Got result in {nameof(GetTypes)} of {nameof(CatalogBrand)}: after sending request on {request} result is null: {result == null}");
         return result.Select(x => _mapper.Map<CatalogType, SelectListItem>(x));
+    }
+
+    public async Task<CatalogItem?> GetCatalogItemById(int id)
+    {
+        var request = $"{_settings.Value.CatalogUrl}/GetByID";
+        _logger.LogInformation($"Entered {nameof(GetTypes)} of {nameof(CatalogBrand)}. It is going to send request on {request}");
+        var result = await _httpClient.SendAsync<CatalogItem, GetByIdRequest>(
+            request,
+            HttpMethod.Post,
+            new GetByIdRequest() { ID = id});
+        _logger.LogInformation($"Got result in {nameof(GetTypes)} of {nameof(CatalogBrand)}: after sending request on {request} result is null: {result == null}");
+        return result;
     }
 }
