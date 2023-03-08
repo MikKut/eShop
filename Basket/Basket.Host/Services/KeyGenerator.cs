@@ -1,6 +1,5 @@
 ﻿using Basket.Host.Models.Dtos;
 using Basket.Host.Services.Interfaces;
-using MVC.Models.Dto;
 
 namespace Basket.Host.Services
 {
@@ -8,7 +7,7 @@ namespace Basket.Host.Services
     {
         public string GenerateKey(UserDto user)
         {
-            return user.UserName + user.UserId;
+            return user.UserName.Replace(" ", string.Empty) + user.UserId;
         }
     }
 }

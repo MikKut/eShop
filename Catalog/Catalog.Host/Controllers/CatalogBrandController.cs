@@ -30,7 +30,7 @@ public class CatalogBrandController : ControllerBase
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogBrandController>))]
     public async Task<IActionResult> Add(CreateRequest<CatalogBrandDto> request)
     {
-        var result = await _catalogBrandService.AddAsync(request.Data);
+        int? result = await _catalogBrandService.AddAsync(request.Data);
         return Ok(new AddItemResponse<int?>() { Id = result });
     }
 
@@ -39,7 +39,7 @@ public class CatalogBrandController : ControllerBase
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogBrandController>))]
     public async Task<IActionResult> Delete(DeleteRequest<CatalogBrandDto> request)
     {
-        var result = await _catalogBrandService.DeleteAsync(request.Data);
+        bool result = await _catalogBrandService.DeleteAsync(request.Data);
         return Ok(new IsSuccededResponse() { IsCompletedSuccessfully = result });
     }
 
@@ -48,7 +48,7 @@ public class CatalogBrandController : ControllerBase
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogBrandController>))]
     public async Task<IActionResult> Update(UpdateRequest<CatalogBrandDto> request)
     {
-        var result = await _catalogBrandService.UpdateAsync(request.ID, request.NewData);
+        bool result = await _catalogBrandService.UpdateAsync(request.ID, request.NewData);
         return Ok(new IsSuccededResponse() { IsCompletedSuccessfully = result });
     }
 }

@@ -2,5 +2,8 @@
 
 public class ErrorController : Controller
 {
-    public IActionResult Error() => View();
+    public IActionResult Error()
+    {
+        return View();
+    }
 }

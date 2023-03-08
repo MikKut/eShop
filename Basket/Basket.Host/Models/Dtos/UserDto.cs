@@ -1,4 +1,4 @@
-﻿namespace MVC.Models.Dto
+﻿namespace Basket.Host.Models.Dtos
 {
     public class UserDto
     {

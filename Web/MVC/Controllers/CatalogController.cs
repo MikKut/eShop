@@ -1,18 +1,17 @@
-﻿using Infrastructure.Filters;
-using Infrastructure.Identity;
-using MVC.Services.Interfaces;
-using MVC.ViewModels.CatalogViewModels;
-using MVC.ViewModels.Models;
-using MVC.ViewModels.Pagination;
-using System.Net;
-using AutoMapper;
+﻿using AutoMapper;
+using Infrastructure.Filters;
 using MVC.Models.Dto;
+using MVC.Services.Interfaces;
+using MVC.ViewModels.Models;
+using MVC.ViewModels.Models.CatalogViewModels;
+using MVC.ViewModels.Models.Pagination;
+using System.Net;
 
 namespace MVC.Controllers;
 
 public class CatalogController : Controller
 {
-    private  readonly ICatalogService _catalogService;
+    private readonly ICatalogService _catalogService;
     private readonly ILogger<CatalogController> _logger;
     private readonly IMapper _mapper;
 
@@ -24,27 +23,27 @@ public class CatalogController : Controller
     }
 
     [AllowAnonymous]
-    [ServiceFilter(typeof(LogActionFilterAttribute<CatalogController>))]
+    [ServiceFilter(typeof(LogActionFilterAttribute<Controllers.CatalogController>))]
     [ProducesResponseType(typeof(Task<IActionResult>), (int)HttpStatusCode.OK)]
     public async Task<IActionResult> Index(int? brandFilterApplied, int? typesFilterApplied, int? page, int? itemsPage)
-    {   
+    {
         page ??= 0;
         itemsPage ??= 6;
         _logger.LogInformation($"Before receiving catalog items. Page.Value: {page.Value}; itmes.Value: {itemsPage.Value}, brandFilterAplied: {brandFilterApplied}, typesFilterApplied: {typesFilterApplied}");
-        var catalog = await _catalogService.GetCatalogItems(page.Value, itemsPage.Value, brandFilterApplied, typesFilterApplied);
+        Catalog? catalog = await _catalogService.GetCatalogItems(page.Value, itemsPage.Value, brandFilterApplied, typesFilterApplied);
         _logger.LogInformation($"After receiving catalog items. They are null: {catalog is null}");
         if (catalog == null)
         {
             return View("Error");
         }
-        var info = new PaginationInfo()
+        PaginationInfo info = new()
         {
             ActualPage = page.Value,
             ItemsPerPage = catalog.Data.Count,
             TotalItems = catalog.Count,
             TotalPages = (int)Math.Ceiling((decimal)catalog.Count / itemsPage.Value)
         };
-        var vm = new IndexViewModel()
+        IndexViewModel vm = new()
         {
             CatalogItems = catalog.Data,
             Brands = await _catalogService.GetBrands(),
@@ -57,14 +56,12 @@ public class CatalogController : Controller
         return View(vm);
     }
 
+    [HttpPost]
     public async Task<IActionResult> AddItemToBucket(int id)
     {
-        var catalogItem = await _catalogService.GetCatalogItemById(id);
-        if (catalogItem == null) 
-        {
-            return RedirectToAction("Index", "Catalog"); 
-        }
-
-        return RedirectToAction("AddToBasket", "Basket",_mapper.Map<CatalogItemDto>(catalogItem));
+        _logger.LogInformation($"Catalog add item entered with id {id}");
+        return id <= 0
+            ? RedirectToAction("Index", "Catalog")
+            : (IActionResult)RedirectToAction("AddToBasket", "Basket", id);
     }
 }

@@ -1,14 +1,13 @@
 using Infrastructure.Extensions;
 using Infrastructure.Filters;
-using Infrastructure.Services.Interfaces;
 using Infrastructure.Services;
+using Infrastructure.Services.Interfaces;
 using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Order.Host;
-using Microsoft.Extensions.Options;
-using Order.Host.Services.Interfaces;
-using Order.Host.Services;
+using Order.Host.Controllers;
 using Order.Host.Models.Dtos;
+using Order.Host.Services;
+using Order.Host.Services.Interfaces;
 
 var configuration = GetConfiguration();
 
@@ -43,12 +42,12 @@ builder.Services.AddSwaggerGen(options =>
                 TokenUrl = new Uri($"{authority}/connect/token"),
                 Scopes = new Dictionary<string, string>()
                 {
-                    { "mvc", "website" }
+                    { "basket", "basket.basketbff" },
+                    { "mvc", "website" },
                 }
             }
         }
     });
-
     options.OperationFilter<AuthorizeCheckOperationFilter>();
 });
 
@@ -61,6 +60,7 @@ builder.Services.AddTransient<IPaymentService, PaymentService>();
 builder.Services.AddTransient<ICatalogItemService, CatalogItemService>();
 builder.Services.AddTransient<IOrderService<CatalogItemDto>, OrderService>();
 builder.Services.AddTransient<IInternalHttpClientService, InternalHttpClientService>();
+builder.Services.AddScoped<LogActionFilterAttribute<OrderBffController>>();
 builder.Services.AddHttpClient();
 
 builder.Services.AddCors(options =>
@@ -75,7 +75,7 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
-AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 app.UseSwagger()
     .UseSwaggerUI(setup =>
     {
@@ -89,6 +89,7 @@ app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapDefaultControllerRoute();

@@ -1,4 +1,3 @@
-using Catalog.Host;
 using Catalog.Host.Configurations;
 using Catalog.Host.Controllers;
 using Catalog.Host.Data;

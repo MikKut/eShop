@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace MVC.Models.Requests
+﻿namespace MVC.Models.Requests
 {
     public class GetByIdRequest
     {

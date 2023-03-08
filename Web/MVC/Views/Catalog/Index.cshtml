@@ -1,4 +1,4 @@
-﻿@model MVC.ViewModels.CatalogViewModels.IndexViewModel
+﻿@model MVC.ViewModels.Models.CatalogViewModels.IndexViewModel
 
 @{
     ViewData["Title"] = "Catalog";
@@ -41,7 +41,7 @@
         @foreach (var catalogItem in Model.CatalogItems)
         {
         <div class="esh-catalog-item col-md-4">
-            <a asp-controller="Catalog" asp-action="AddItemToBucket" asp-route-id="@catalogItem.Id">
+            <a asp-controller="Basket" asp-action="AddToBasket" asp-route-id="@catalogItem.Id">
                 <partial name="_product" model="catalogItem" />
             </a>
         </div>

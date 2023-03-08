@@ -30,7 +30,7 @@ public class CatalogTypeController : ControllerBase
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogTypeController>))]
     public async Task<IActionResult> Add(CreateRequest<CatalogTypeDto> request)
     {
-        var result = await _catalogTypeService.AddAsync(request.Data);
+        int? result = await _catalogTypeService.AddAsync(request.Data);
         return Ok(new AddItemResponse<int?>() { Id = result });
     }
 
@@ -39,7 +39,7 @@ public class CatalogTypeController : ControllerBase
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogTypeController>))]
     public async Task<IActionResult> Delete(DeleteRequest<CatalogTypeDto> request)
     {
-        var result = await _catalogTypeService.DeleteAsync(request.Data);
+        bool result = await _catalogTypeService.DeleteAsync(request.Data);
         return Ok(new IsSuccededResponse() { IsCompletedSuccessfully = result });
     }
 
@@ -48,7 +48,7 @@ public class CatalogTypeController : ControllerBase
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogTypeController>))]
     public async Task<IActionResult> Update(UpdateRequest<CatalogTypeDto> request)
     {
-        var result = await _catalogTypeService.UpdateAsync(request.ID, request.NewData);
+        bool result = await _catalogTypeService.UpdateAsync(request.ID, request.NewData);
         return Ok(new IsSuccededResponse() { IsCompletedSuccessfully = result });
     }
 }

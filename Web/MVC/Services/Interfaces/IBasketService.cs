@@ -1,6 +1,5 @@
 ﻿using MVC.Models.Dto;
 using MVC.Models.Responses;
-using MVC.ViewModels.Models;
 
 namespace MVC.Services.Interfaces
 {

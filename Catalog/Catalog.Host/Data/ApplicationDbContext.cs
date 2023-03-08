@@ -16,8 +16,8 @@ public class ApplicationDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.ApplyConfiguration(new CatalogBrandEntityTypeConfiguration());
-        builder.ApplyConfiguration(new CatalogTypeEntityTypeConfiguration());
-        builder.ApplyConfiguration(new CatalogItemEntityTypeConfiguration());
+        _ = builder.ApplyConfiguration(new CatalogBrandEntityTypeConfiguration());
+        _ = builder.ApplyConfiguration(new CatalogTypeEntityTypeConfiguration());
+        _ = builder.ApplyConfiguration(new CatalogItemEntityTypeConfiguration());
     }
 }

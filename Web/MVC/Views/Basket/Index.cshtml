@@ -17,18 +17,18 @@
         @foreach (var item in Model.CatalogItems)
         {
         <div class="esh-catalog-item col-md-4">
-            <label>Type: @item.Key.TypeName </label>
-            <label>Brand: @item.Key.BrandName </label>
-            <label>Name: @item.Key.Name </label>
-            <label>Price: @item.Key.Price </label>
-            <label>Amount: @item.Value </label>
-            <label>Total price: @TotalItemPrice(item) $ </label>
-            <form asp-controller="Basket" asp-action="RemoveFromBasket" asp-route-order="@item">
+            <p>Type: @item.Key.TypeName </p>
+            <p>Brand: @item.Key.BrandName </p>
+            <p>Name: @item.Key.Name </p>
+            <p>Price: @item.Key.Price </p>
+            <p>Amount: @item.Value </p>
+            <p>Total price: @TotalItemPrice(item) $ </p>
+            <form asp-controller="Basket" asp-action="RemoveFromBasket" asp-route-id="@item.Key.Id">
                 <input type="submit" value="remove">
             </form>
         </div>
             }
-            <label>Total price: @TotalPrice() $ </label>
+            <p>Total price: @TotalPrice() $ </p>
         <form asp-controller="Basket" asp-action="CommitPurchases">
             <input type="submit" value="commit purchase">
         </form>

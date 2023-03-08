@@ -1,6 +1,24 @@
 version: '3.8'
 
 services:
+  order.api:
+    container_name: lde.order.api
+    build:
+      context: .
+      dockerfile: Order/Order.Host/Dockerfile
+    environment:
+       - ASPNETCORE_ENVIRONMENT=Development
+       - ASPNETCORE_URLS=http://+:5000
+       - ConnectionString=server=www.petShop.com;port=5433;database=catalog;uid=postgres;password=postgres;
+       - CdnHost=http://www.petShop.com:81
+       - PathBase=http://www.petShop.com:5006
+       - CatalogBffUrl=http://localhost:5000/api/v1/CatalogBff
+       - CatalogItemUrl=http://localhost:5000/api/v1/CatalogItem
+    depends_on:
+      - catalog.api
+      - identityserver
+    ports:
+      - 5006:5006
   basket.api:
     container_name: lde.basket.api
     build:
@@ -9,11 +27,11 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5003
-      - Authorization__Authority=http://www.alevelwebsite.com:5002
-      - Redis__Host=www.alevelwebsite.com:6380
+      - Authorization__Authority=http://www.petShop.com:5002
+      - Redis__Host=www.petShop.com:6380
       - Redis__CacheTimeout=00:30:00
-      - PathBase=http://www.alevelwebsite.com:5003
-      - OrderUrl=http://www.alevelwebsite.com:5005/api/v1/orderbff
+      - PathBase=http://www.petShop.com:5003
+      - OrderUrl=http://www.petShop.com:5006/api/v1/OrderBff
     depends_on:
       - redis
     ports:
@@ -26,9 +44,9 @@ services:
     environment:
        - ASPNETCORE_ENVIRONMENT=Development
        - ASPNETCORE_URLS=http://+:5000
-       - ConnectionString=server=www.alevelwebsite.com;port=5433;database=catalog;uid=postgres;password=postgres;
-       - Authorization__Authority=http://www.alevelwebsite.com:5002
-       - PathBase=http://www.alevelwebsite.com:5000
+       - ConnectionString=server=www.petShop.com;port=5433;database=catalog;uid=postgres;password=postgres;
+       - Authorization__Authority=http://www.petShop.com:5002
+       - PathBase=http://www.petShop.com:5000
     depends_on:
       - postgres
     ports:
@@ -41,12 +59,12 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5001
-      - CatalogUrl=http://www.alevelwebsite.com:5000/api/v1/CatalogBff
-      - BasketUrl=http://www.alevelwebsite.com:5003/api/v1/basketbff
-      - Authorization__Authority=http://www.alevelwebsite.com:5002
-      - IdentityUrl=http://www.alevelwebsite.com:5002
-      - CallBackUrl=http://www.alevelwebsite.com:81/
-      - RedirectUri=http://www.alevelwebsite.com:81/signin-oidc
+      - CatalogUrl=http://www.petShop.com:5000/api/v1/CatalogBff
+      - BasketUrl=http://www.petShop.com:5003/api/v1/basketbff
+      - Authorization__Authority=http://www.petShop.com:5002
+      - IdentityUrl=http://www.petShop.com:5002
+      - CallBackUrl=http://www.petShop.com:81/
+      - RedirectUri=http://www.petShop.com:81/signin-oidc
     depends_on:
       - catalog.api
       - identityserver
@@ -61,9 +79,9 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:5002
-      - MvcUrl=http://www.alevelwebsite.com:81
-      - CatalogApi=http://www.alevelwebsite.com:5000
-      - BasketApi=http://www.alevelwebsite.com:5003
+      - MvcUrl=http://www.petShop.com:81
+      - CatalogApi=http://www.petShop.com:5000
+      - BasketApi=http://www.petShop.com:5003
     ports:
       - 5002:5002
   nginx:

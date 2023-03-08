@@ -19,7 +19,7 @@ namespace IdentityServer
         {
             return new ApiResource[]
             {
-                new ApiResource("alevelwebsite.com")
+                new ApiResource("petShop.com")
                 {
                     Scopes = new List<Scope>
                     {
@@ -73,6 +73,11 @@ namespace IdentityServer
 
                     // no interactive user, use the clientid/secret for authentication
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                    AllowedScopes =
+                    {
+                        "order.makeorder"
+                    },
 
                     // secret for authentication
                     ClientSecrets =
@@ -136,7 +141,6 @@ namespace IdentityServer
                     AllowedScopes =
                     {
                        "catalog.catalogitem",
-                       "mvc",
                        "basket.basketbff"
                     }
                 },

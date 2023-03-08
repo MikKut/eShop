@@ -2,8 +2,6 @@ using Catalog.Host.Data;
 using Catalog.Host.Data.Entities;
 using Catalog.Host.Models.Enums;
 using Catalog.Host.Repositories.Interfaces;
-using Catalog.Host.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Host.Repositories;
 
@@ -44,7 +42,7 @@ public class CatalogRepository : ICatalogRepository
             .LongCountAsync();
         }
 
-        var itemsOnPage = await _dbContext.CatalogItems
+        List<CatalogItem> itemsOnPage = await _dbContext.CatalogItems
             .Where(i => !filters.ContainsKey(CatalogTypeFilter.Brand) || i.CatalogBrandId == filters[CatalogTypeFilter.Brand])
             .Where(i => !filters.ContainsKey(CatalogTypeFilter.Type) || i.CatalogTypeId == filters[CatalogTypeFilter.Type])
             .Include(i => i.CatalogBrand)
@@ -55,13 +53,13 @@ public class CatalogRepository : ICatalogRepository
             .ToListAsync();
 
         _logger.LogInformation("\nFilters\n");
-        foreach (var filter in filters)
+        foreach (KeyValuePair<CatalogTypeFilter, int> filter in filters)
         {
-            _logger.LogInformation($"{filter.Key}({filter.Value.ToString()}) - {filter.Value}");
+            _logger.LogInformation($"{filter.Key}({filter.Value}) - {filter.Value}");
         }
 
         _logger.LogInformation("\nValues\n");
-        foreach (var item in itemsOnPage)
+        foreach (CatalogItem? item in itemsOnPage)
         {
             _logger.LogInformation($"{item.Id} - {item.Name} of {item.CatalogBrand.Brand}({item.CatalogBrand.Id}) brand and {item.CatalogType.Type}({item.CatalogType.Id}) type");
         }
@@ -78,7 +76,7 @@ public class CatalogRepository : ICatalogRepository
 
     public async Task<CatalogItem?> GetByBrandAsync(int catalogBrandId)
     {
-        var itemByBrand = _dbContext.CatalogItems
+        Task<CatalogItem?> itemByBrand = _dbContext.CatalogItems
            .Include(i => i.CatalogBrand)
            .Include(i => i.CatalogType)
            .FirstOrDefaultAsync(t => t.CatalogBrand.Id == catalogBrandId);
@@ -88,7 +86,7 @@ public class CatalogRepository : ICatalogRepository
 
     public async Task<CatalogItem?> GetByIDAsync(int id)
     {
-        var itemWithID = _dbContext.CatalogItems
+        Task<CatalogItem?> itemWithID = _dbContext.CatalogItems
            .Include(i => i.CatalogBrand)
            .Include(i => i.CatalogType)
            .FirstOrDefaultAsync(t => t.Id == id);
@@ -98,7 +96,7 @@ public class CatalogRepository : ICatalogRepository
 
     public async Task<CatalogItem?> GetByTypeAsync(int catalogTypeId)
     {
-        var itemByType = _dbContext.CatalogItems
+        Task<CatalogItem?> itemByType = _dbContext.CatalogItems
           .Include(i => i.CatalogBrand)
           .Include(i => i.CatalogType)
           .FirstOrDefaultAsync(i => i.CatalogType.Id == catalogTypeId);

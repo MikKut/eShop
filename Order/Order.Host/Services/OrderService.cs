@@ -2,8 +2,6 @@
 using Order.Host.Models.Requests;
 using Order.Host.Models.Responses;
 using Order.Host.Services.Interfaces;
-using System.Net.Http;
-using System.Runtime;
 
 namespace Order.Host.Services
 {
@@ -22,8 +20,8 @@ namespace Order.Host.Services
 
         public async Task<SuccessfulResultResponse> HandlePurchase(PurchaseRequest<CatalogItemDto> request)
         {
-            var totalCost = request.Data.Sum(x => x.Price);
-            var resultOfCommit = await _paymentService.CheckTrasactionForAvailabilityForUser(request.ID, totalCost);
+            decimal totalCost = request.Data.Sum(x => x.Price);
+            SuccessfulResultResponse resultOfCommit = await _paymentService.CheckTrasactionForAvailabilityForUser(request.ID, totalCost);
             if (!resultOfCommit.IsCompletedSuccessfully)
             {
                 return resultOfCommit;

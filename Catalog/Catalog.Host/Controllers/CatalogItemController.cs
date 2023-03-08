@@ -30,7 +30,7 @@ public class CatalogItemController : ControllerBase
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogItemController>))]
     public async Task<IActionResult> Add(CreateProductRequest request)
     {
-        var result = await _catalogItemService.AddAsync(new CatalogItemDto() { Name = request.Name, AvailableStock = request.AvailableStock, Price = request.Price, PictureUrl = request.PictureFileName, Description = request.Description, CatalogBrandId = request.CatalogBrandId, CatalogTypeId = request.CatalogTypeId });
+        int? result = await _catalogItemService.AddAsync(new CatalogItemDto() { Name = request.Name, AvailableStock = request.AvailableStock, Price = request.Price, PictureUrl = request.PictureFileName, Description = request.Description, CatalogBrandId = request.CatalogBrandId, CatalogTypeId = request.CatalogTypeId });
         return Ok(new AddItemResponse<int?>() { Id = result });
     }
 
@@ -39,7 +39,7 @@ public class CatalogItemController : ControllerBase
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogItemController>))]
     public async Task<IActionResult> Delete(DeleteProductRequest request)
     {
-        var result = await _catalogItemService.DeleteAsync(new CatalogItemDto() { Name = request.Name, AvailableStock = request.AvailableStock, Price = request.Price, PictureUrl = request.PictureFileName, Description = request.Description, CatalogBrandId = request.CatalogBrandId, CatalogTypeId = request.CatalogTypeId });
+        bool result = await _catalogItemService.DeleteAsync(new CatalogItemDto() { Name = request.Name, AvailableStock = request.AvailableStock, Price = request.Price, PictureUrl = request.PictureFileName, Description = request.Description, CatalogBrandId = request.CatalogBrandId, CatalogTypeId = request.CatalogTypeId });
         return Ok(new IsSuccededResponse() { IsCompletedSuccessfully = result });
     }
 
@@ -48,7 +48,7 @@ public class CatalogItemController : ControllerBase
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogItemController>))]
     public async Task<IActionResult> Update(UpdateProductRequest request)
     {
-        var result = await _catalogItemService.UpdateAsync(request.ID, new CatalogItemDto() { Name = request.NewName, AvailableStock = request.NewAvailableStock, Price = request.NewPrice, PictureUrl = request.NewPictureFileName, Description = request.NewDescription, CatalogBrandId = request.NewCatalogBrandId, CatalogTypeId = request.NewCatalogTypeId });
+        bool result = await _catalogItemService.UpdateAsync(request.ID, new CatalogItemDto() { Name = request.NewName, AvailableStock = request.NewAvailableStock, Price = request.NewPrice, PictureUrl = request.NewPictureFileName, Description = request.NewDescription, CatalogBrandId = request.NewCatalogBrandId, CatalogTypeId = request.NewCatalogTypeId });
         return Ok(new IsSuccededResponse() { IsCompletedSuccessfully = result });
     }
 
@@ -57,7 +57,7 @@ public class CatalogItemController : ControllerBase
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogItemController>))]
     public async Task<IActionResult> UpdateAvailableStock(UpdateAvailableStockRequest request)
     {
-        var result = await _catalogItemService.UpdateAvailableStockAsync(request);
+        bool result = await _catalogItemService.UpdateAvailableStockAsync(request);
         return Ok(new IsSuccededResponse() { IsCompletedSuccessfully = result });
     }
 }

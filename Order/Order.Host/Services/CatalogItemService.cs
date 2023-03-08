@@ -4,8 +4,6 @@ using Order.Host.Models.Dtos;
 using Order.Host.Models.Requests;
 using Order.Host.Models.Responses;
 using Order.Host.Services.Interfaces;
-using System.Net.Http;
-using System.Runtime;
 
 namespace Order.Host.Services
 {
@@ -13,30 +11,30 @@ namespace Order.Host.Services
     {
         private readonly IInternalHttpClientService _httpClientService;
         private readonly IOptions<AppSettings> _settings;
-        public CatalogItemService(IInternalHttpClientService httpClientService)
+        public CatalogItemService(
+            IInternalHttpClientService httpClientService,
+            IOptions<AppSettings> settings)
         {
+            _settings = settings;
             _httpClientService = httpClientService;
         }
 
         public async Task<SuccessfulResultResponse> ReduceQuantityOfItemsAsync(IEnumerable<CatalogItemDto> data)
         {
-            var catalogItems = await GetGroupedItems(data);
-            var listOfResponses = await GetCatalogItemResponsesAsync(catalogItems);
+            Dictionary<int, int> catalogItems = await GetGroupedItems(data);
+            List<CatalogItemResponse> listOfResponses = await GetCatalogItemResponsesAsync(catalogItems);
 
-            if (!CheckForAvailability(listOfResponses, catalogItems))
-            {
-                return new SuccessfulResultResponse() { IsCompletedSuccessfully = false, Message = "There are to many items in the basket: not enough items in the shop" };
-            }
-
-            return await CommitReducing(listOfResponses.ToArray(), catalogItems);
+            return !CheckForAvailability(listOfResponses, catalogItems)
+                ? new SuccessfulResultResponse() { IsCompletedSuccessfully = false, Message = "There are to many items in the basket: not enough items in the shop" }
+                : await CommitReducing(listOfResponses.ToArray(), catalogItems);
         }
         private async Task<List<CatalogItemResponse>> GetCatalogItemResponsesAsync(Dictionary<int, int> catalogItems)
         {
-            var listOfResponses = new List<CatalogItemResponse>();
-            foreach (var item in catalogItems)
+            List<CatalogItemResponse> listOfResponses = new();
+            foreach (KeyValuePair<int, int> item in catalogItems)
             {
                 string url = $"{_settings.Value.CatalogBffUrl}/GetById";
-                var result = await _httpClientService.SendAsync<CatalogItemResponse, GetByIdRequest>
+                CatalogItemResponse result = await _httpClientService.SendAsync<CatalogItemResponse, GetByIdRequest>
                     (url,
                     HttpMethod.Post, new GetByIdRequest { ID = item.Key });
                 listOfResponses.Add(result);
@@ -48,10 +46,10 @@ namespace Order.Host.Services
         private async Task<SuccessfulResultResponse> CommitReducing(CatalogItemResponse[] listOfResponses, Dictionary<int, int> catalogItems)
         {
             int count = 0;
-            foreach (var item in catalogItems)
+            foreach (KeyValuePair<int, int> item in catalogItems)
             {
                 string url = $"{_settings.Value.CatalogItemUrl}/UpdateAvailableStock";
-                var result = await _httpClientService.SendAsync<SuccessfulResultResponse, UpdateAvailableStockRequest>
+                SuccessfulResultResponse result = await _httpClientService.SendAsync<SuccessfulResultResponse, UpdateAvailableStockRequest>
                     (url,
                     HttpMethod.Post, new UpdateAvailableStockRequest { Id = item.Key, AvailableStock = listOfResponses[count].AvailableStock - catalogItems[listOfResponses[count].Id] });
                 count++;
@@ -66,8 +64,18 @@ namespace Order.Host.Services
 
         private bool CheckForAvailability(List<CatalogItemResponse> listOfResponses, Dictionary<int, int> catalogItems)
         {
-            foreach (var item in listOfResponses)
+            foreach (CatalogItemResponse item in listOfResponses)
             {
+                if (item == null)
+                {
+                    return false;
+                }
+
+                if (!catalogItems.ContainsKey(item.Id))
+                {
+                    return false;
+                }
+
                 if (item.AvailableStock < catalogItems[item.Id])
                 {
                     return false;
@@ -77,10 +85,10 @@ namespace Order.Host.Services
             return true;
         }
 
-        private async Task<Dictionary<int, int>> GetGroupedItems(IEnumerable<CatalogItemDto> data)
+        private Task<Dictionary<int, int>> GetGroupedItems(IEnumerable<CatalogItemDto> data)
         {
             Dictionary<int, int> backetItemsDictionary = new();
-            foreach (var item in data)
+            foreach (CatalogItemDto item in data)
             {
                 if (!backetItemsDictionary.ContainsKey(item.Id))
                 {
@@ -92,7 +100,7 @@ namespace Order.Host.Services
                 }
             }
 
-            return backetItemsDictionary;
+            return Task.FromResult(backetItemsDictionary);
         }
     }
 }

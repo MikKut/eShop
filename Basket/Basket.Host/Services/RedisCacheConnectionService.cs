@@ -12,9 +12,9 @@ namespace Basket.Host.Services
         public RedisCacheConnectionService(
             IOptions<RedisConfig> config)
         {
-            var redisConfigurationOptions = ConfigurationOptions.Parse(config.Value.Host);
+            ConfigurationOptions redisConfigurationOptions = ConfigurationOptions.Parse(config.Value.Host);
             _connectionLazy =
-                new Lazy<ConnectionMultiplexer>(() 
+                new Lazy<ConnectionMultiplexer>(()
                     => ConnectionMultiplexer.Connect(redisConfigurationOptions));
         }
 

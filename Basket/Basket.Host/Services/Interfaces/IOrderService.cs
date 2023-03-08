@@ -1,6 +1,5 @@
 ﻿using Basket.Host.Models.Dtos;
-using Basket.Host.Models.Requests;
-using MVC.Models.Responses;
+using Basket.Host.Models.Responses;
 
 namespace Basket.Host.Services.Interfaces
 {

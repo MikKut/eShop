@@ -9,9 +9,8 @@ public class IdentityParser : IIdentityParser<ApplicationUser>
     {
         // Pattern matching 'is' expression
         // assigns "claims" if "principal" is a "ClaimsPrincipal"
-        if (principal is ClaimsPrincipal claims)
-        {
-            return new ApplicationUser
+        return principal is ClaimsPrincipal claims
+            ? new ApplicationUser
             {
 
                 CardHolderName = claims.Claims.FirstOrDefault(x => x.Type == "card_holder")?.Value ?? "",
@@ -29,8 +28,7 @@ public class IdentityParser : IIdentityParser<ApplicationUser>
                 State = claims.Claims.FirstOrDefault(x => x.Type == "address_state")?.Value ?? "",
                 Street = claims.Claims.FirstOrDefault(x => x.Type == "address_street")?.Value ?? "",
                 ZipCode = claims.Claims.FirstOrDefault(x => x.Type == "address_zip_code")?.Value ?? ""
-            };
-        }
-        throw new ArgumentException(message: "The principal must be a ClaimsPrincipal", paramName: nameof(principal));
+            }
+            : throw new ArgumentException(message: "The principal must be a ClaimsPrincipal", paramName: nameof(principal));
     }
 }

@@ -36,7 +36,7 @@ public class CatalogBffController : ControllerBase
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogBffController>))]
     public async Task<IActionResult> Items(PaginatedItemsRequest<CatalogTypeFilter> request)
     {
-        var result = await _catalogService.GetCatalogItemsAsync(request.PageSize, request.PageIndex, request.Filters);
+        PaginatedItemsResponse<CatalogItemDto> result = await _catalogService.GetCatalogItemsAsync(request.PageSize, request.PageIndex, request.Filters);
         return Ok(result);
     }
 
@@ -46,7 +46,7 @@ public class CatalogBffController : ControllerBase
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogBffController>))]
     public async Task<IActionResult> GetByID(GetByIdRequest request)
     {
-        var result = await _catalogService.GetByIDAsync(request.ID);
+        CatalogItemDto result = await _catalogService.GetByIDAsync(request.ID);
         return Ok(result);
     }
 
@@ -56,7 +56,7 @@ public class CatalogBffController : ControllerBase
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogBffController>))]
     public async Task<IActionResult> GetByBrand(GetByIdRequest request)
     {
-        var result = await _catalogService.GetByBrandAsync(request.ID);
+        CatalogItemDto result = await _catalogService.GetByBrandAsync(request.ID);
         return Ok(result);
     }
 
@@ -66,7 +66,7 @@ public class CatalogBffController : ControllerBase
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogBffController>))]
     public async Task<IActionResult> GetByType(GetByIdRequest request)
     {
-        var result = await _catalogService.GetByTypeAsync(request.ID);
+        CatalogItemDto result = await _catalogService.GetByTypeAsync(request.ID);
         return Ok(result);
     }
 
@@ -76,7 +76,7 @@ public class CatalogBffController : ControllerBase
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogBffController>))]
     public async Task<IActionResult> GetBrands()
     {
-        var result = await _catalogService.GetBrandsAsync();
+        List<CatalogBrandDto> result = await _catalogService.GetBrandsAsync();
         return Ok(result);
     }
 
@@ -86,7 +86,7 @@ public class CatalogBffController : ControllerBase
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogBffController>))]
     public async Task<IActionResult> GetTypes()
     {
-        var result = await _catalogService.GetTypesAsync();
+        List<CatalogTypeDto> result = await _catalogService.GetTypesAsync();
         return Ok(result);
     }
 }

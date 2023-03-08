@@ -1,6 +1,4 @@
-﻿using MVC.Models.Dto;
-
-namespace Basket.Host.Models.Dtos
+﻿namespace Basket.Host.Models.Dtos
 {
     public class OrderDto<T>
     {

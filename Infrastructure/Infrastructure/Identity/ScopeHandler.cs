@@ -2,7 +2,6 @@ using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Routing;
 
 namespace Infrastructure.Identity;
 
@@ -10,10 +9,10 @@ public class ScopeHandler : AuthorizationHandler<ScopeRequirement>
 {
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, ScopeRequirement requirement)
     {
-        var targetScope = GetTargetScope(context);
+        string? targetScope = GetTargetScope(context);
         if (targetScope != null)
         {
-            var scopes = context.User
+            IEnumerable<string> scopes = context.User
                 .FindAll(c => c.Type == "scope")
                 .SelectMany(x => x.Value.Split(' '));
             if (scopes.Contains(targetScope))
@@ -31,16 +30,16 @@ public class ScopeHandler : AuthorizationHandler<ScopeRequirement>
 
     private string? GetTargetScope(AuthorizationHandlerContext context)
     {
-        var httpContext = (HttpContext)context.Resource!;
+        HttpContext httpContext = (HttpContext)context.Resource!;
 
-        var routeEndpoint = httpContext.GetEndpoint();
-        var descriptor = routeEndpoint?.Metadata
+        Endpoint? routeEndpoint = httpContext.GetEndpoint();
+        ControllerActionDescriptor? descriptor = routeEndpoint?.Metadata
             .OfType<ControllerActionDescriptor>()
             .SingleOrDefault();
 
         if (descriptor != null)
         {
-            var scopeAttribute = (ScopeAttribute?)descriptor.MethodInfo.GetCustomAttribute(typeof(ScopeAttribute))
+            ScopeAttribute? scopeAttribute = (ScopeAttribute?)descriptor.MethodInfo.GetCustomAttribute(typeof(ScopeAttribute))
                                  ?? (ScopeAttribute?)descriptor.ControllerTypeInfo.GetCustomAttribute(typeof(ScopeAttribute));
 
             return scopeAttribute?.ScopeName;

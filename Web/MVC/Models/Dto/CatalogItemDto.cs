@@ -11,17 +11,7 @@
 
         public bool Equals(CatalogItemDto? other)
         {
-            if (other == null)
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            return other.Id == this.Id;
+            return other != null && (ReferenceEquals(this, other) || other.Id == Id);
         }
     }
 }

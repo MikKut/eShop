@@ -1,4 +1,4 @@
-﻿namespace MVC.ViewModels.Pagination;
+﻿namespace MVC.ViewModels.Models.Pagination;
 
 public class PaginationInfo
 {

@@ -18,6 +18,7 @@ builder.Services.AddControllers(options =>
     })
     .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
 
+builder.AddConfiguration();
 builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new OpenApiInfo
@@ -40,6 +41,7 @@ builder.Services.AddSwaggerGen(options =>
                 Scopes = new Dictionary<string, string>()
                 {
                     { "mvc", "website" },
+                    { "order", "order.makeorder"}
                 }
             }
         }
@@ -48,9 +50,10 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<AuthorizeCheckOperationFilter>();
 });
 
-builder.AddConfiguration();
+builder.Services.Configure<AppSettings>(configuration);
 builder.Services.Configure<RedisConfig>(
     builder.Configuration.GetSection("Redis"));
+
 builder.Services.AddAuthorization(configuration);
 builder.Services.AddHttpClient();
 builder.Services.AddAutoMapper(typeof(Program));

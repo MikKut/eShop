@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Catalog.Host.Data.Entities;
 
 namespace Catalog.Host.Models.Requests;
 

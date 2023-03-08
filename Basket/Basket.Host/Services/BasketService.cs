@@ -1,8 +1,5 @@
-using Basket.Host.Models;
 using Basket.Host.Models.Dtos;
-using Basket.Host.Models.Requests;
 using Basket.Host.Services.Interfaces;
-using MVC.Models.Dto;
 
 namespace Basket.Host.Services;
 
@@ -21,18 +18,25 @@ public class BasketService : IBasketService
 
     public async Task AddItems<T>(OrderDto<T> data)
     {
-        var key = _keyGeneratorService.GenerateKey(data.User);
-        await _cacheService.AddOrUpdateAsync(key, data);
+        string key = _keyGeneratorService.GenerateKey(data.User);
+        await _cacheService.AddOrUpdateAsync(key, data.Orders);
     }
 
     public async Task<BasketDto<CatalogItemDto>> GetItems(UserDto user)
     {
-        var key = _keyGeneratorService.GenerateKey(user);
-        var result = await _cacheService.GetAsync<List<CatalogItemDto>>(key);
-        if (result == null)
-        {
-            result = new List<CatalogItemDto>();
-        }
+        string key = _keyGeneratorService.GenerateKey(user);
+        List<CatalogItemDto> result = await _cacheService.GetAsync<List<CatalogItemDto>>(key);
+        result ??= new List<CatalogItemDto>();
+
+        return new BasketDto<CatalogItemDto>() { Data = result };
+    }
+
+    public async Task<BasketDto<CatalogItemDto>> GetItems(int userId, string userName)
+    {
+        string key = _keyGeneratorService.GenerateKey(new UserDto() { UserId = userId, UserName = userName });
+        List<CatalogItemDto> result = await _cacheService.GetAsync<List<CatalogItemDto>>(key);
+        result ??= new List<CatalogItemDto>();
+
         return new BasketDto<CatalogItemDto>() { Data = result };
     }
 }

@@ -1,13 +1,11 @@
 ﻿using Basket.Host.Models.Dtos;
 using Basket.Host.Models.Requests;
+using Basket.Host.Models.Responses;
 using Basket.Host.Services.Interfaces;
-using MVC.Models.Responses;
-using System.Net.Http;
-using System.Runtime;
 
 namespace Basket.Host.Services
 {
-    public class OrderService<T> 
+    public class OrderService<T>
         : IOrderService<T>
         where T : class
     {
@@ -28,7 +26,7 @@ namespace Basket.Host.Services
         {
             string url = $"{_settings.Value.OrderUrl}/CommitPurchases";
             _logger.LogInformation($"Sent information to the {url}");
-            var result = await _httpClient.SendAsync<SuccessfulResultResponse, PurchaseRequest<T>>
+            SuccessfulResultResponse result = await _httpClient.SendAsync<SuccessfulResultResponse, PurchaseRequest<T>>
                 (url,
                 HttpMethod.Post, new PurchaseRequest<T>() { Data = request.Orders, ID = request.User.UserId });
             if (result.IsSuccessful)

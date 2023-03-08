@@ -1,4 +1,4 @@
-﻿namespace MVC.Models.Responses
+﻿namespace Basket.Host.Models.Responses
 {
     public class SuccessfulResultResponse
     {

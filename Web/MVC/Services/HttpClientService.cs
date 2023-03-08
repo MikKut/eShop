@@ -1,5 +1,4 @@
 using IdentityModel.Client;
-using Infrastructure.Configuration;
 using MVC.Services.Interfaces;
 using Newtonsoft.Json;
 
@@ -24,17 +23,19 @@ public class HttpClientService : IHttpClientService
     public async Task<TResponse> SendAsync<TResponse, TRequest>(string url, HttpMethod method, TRequest? content)
     {
         _logger.LogInformation($"In process of sending {method}-request to {url}");
-        var client = _clientFactory.CreateClient();
+        HttpClient client = _clientFactory.CreateClient();
 
-        var token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
+        string? token = await _httpContextAccessor.HttpContext.GetTokenAsync("access_token");
         if (!string.IsNullOrEmpty(token))
         {
             client.SetBearerToken(token);
         }
 
-        var httpMessage = new HttpRequestMessage();
-        httpMessage.RequestUri = new Uri(url);
-        httpMessage.Method = method;
+        HttpRequestMessage httpMessage = new()
+        {
+            RequestUri = new Uri(url),
+            Method = method
+        };
 
         if (content != null)
         {
@@ -43,17 +44,17 @@ public class HttpClientService : IHttpClientService
         }
 
         _logger.LogInformation($"Content of the request:\n{httpMessage.Content?.ToString()} {httpMessage.Content}\n");
-        var result = await client.SendAsync(httpMessage);
+        HttpResponseMessage result = await client.SendAsync(httpMessage);
 
         if (result.IsSuccessStatusCode)
         {
-            var resultContent = await result.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<TResponse>(resultContent);
-            _logger.LogInformation($"Sent {httpMessage.Method}-request on {httpMessage.RequestUri.ToString()} with the next result: \n {response}\n");
+            string resultContent = await result.Content.ReadAsStringAsync();
+            TResponse? response = JsonConvert.DeserializeObject<TResponse>(resultContent);
+            _logger.LogInformation($"Sent {httpMessage.Method}-request on {httpMessage.RequestUri} with the next result: \n {response}\n");
             return response!;
         }
 
-        _logger.LogInformation($"Sent {httpMessage.Method}-request on {httpMessage.RequestUri.ToString()} with default result");
-        return default(TResponse) !;
+        _logger.LogInformation($"Sent {httpMessage.Method}-request on {httpMessage.RequestUri} with default result");
+        return default!;
     }
 }

@@ -1,12 +1,13 @@
 ﻿using Infrastructure;
+using Infrastructure.Filters;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Order.Host.Models.Dtos;
 using Order.Host.Models.Requests;
-using Order.Host.Services.Interfaces;
 using Order.Host.Models.Responses;
+using Order.Host.Services.Interfaces;
 using System.Net;
 
 namespace Order.Host.Controllers
@@ -15,7 +16,7 @@ namespace Order.Host.Controllers
     [Authorize(Policy = AuthPolicy.AllowEndUserPolicy)]
     [Scope("order.makeorder")]
     [Route(ComponentDefaults.DefaultRoute)]
-    public class OrderBffController
+    public class OrderBffController : ControllerBase
     {
         private readonly ILogger<OrderBffController> _logger;
         private readonly IOrderService<CatalogItemDto> _orderService;
@@ -33,8 +34,10 @@ namespace Order.Host.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(SuccessfulResultResponse), (int)HttpStatusCode.OK)]
+        [ServiceFilter(typeof(LogActionFilterAttribute<OrderBffController>))]
         public async Task<SuccessfulResultResponse> CommitPurchases(PurchaseRequest<CatalogItemDto> request)
         {
+            _logger.LogInformation($"Recieved request: User id - {request.ID}, Data count - {request.Data.Count()}");
             return await _orderService.HandlePurchase(request);
         }
     }
