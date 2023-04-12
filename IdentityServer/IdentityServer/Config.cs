@@ -44,10 +44,10 @@ namespace IdentityServer
                 },
                 new ApiResource("order")
                 {
-                    Scopes = new List<Scope>
-                    {
-                        new Scope("order.makeorder")
-                    },
+                   Scopes = new List<Scope>
+                   {
+                      new Scope("order.makeorder")
+                   },
                 }
             };
         }
@@ -71,7 +71,6 @@ namespace IdentityServer
                 {
                     ClientId = "catalog",
 
-                    // no interactive user, use the clientid/secret for authentication
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
 
                     AllowedScopes =
@@ -119,21 +118,24 @@ namespace IdentityServer
                 {
                     ClientId = "basket",
                     ClientName = "Basket.Host",
-                    AllowedGrantTypes = GrantTypes.Implicit,
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = { $"{configuration["BasketApi"]}/swagger/oauth2-redirect.html" },
                     PostLogoutRedirectUris = { $"{configuration["BasketApi"]}/swagger/" },
 
                     AllowedScopes =
                     {
-                        "mvc", "order.makeorder"
+                        "basket.basketbff", 
+                        "order.makeorder"
                     }
                 },
                  new Client
                 {
                     ClientId = "order",
                     ClientName = "Order.Host",
-                    AllowedGrantTypes = GrantTypes.Implicit,
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.ClientCredentials,
                     AllowAccessTokensViaBrowser = true,
                     RedirectUris = { $"{configuration["OrderApi"]}/swagger/oauth2-redirect.html" },
                     PostLogoutRedirectUris = { $"{configuration["OrderApi"]}/swagger/" },
@@ -141,7 +143,8 @@ namespace IdentityServer
                     AllowedScopes =
                     {
                        "catalog.catalogitem",
-                       "basket.basketbff"
+                       "basket.basketbff",
+                       "order.makeorder"
                     }
                 },
                  new Client

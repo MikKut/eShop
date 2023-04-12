@@ -34,14 +34,15 @@ builder.Services.AddSwaggerGen(options =>
         Type = SecuritySchemeType.OAuth2,
         Flows = new OpenApiOAuthFlows()
         {
-            Implicit = new OpenApiOAuthFlow()
+            ClientCredentials = new OpenApiOAuthFlow()
             {
                 AuthorizationUrl = new Uri($"{authority}/connect/authorize"),
                 TokenUrl = new Uri($"{authority}/connect/token"),
                 Scopes = new Dictionary<string, string>()
                 {
                     { "mvc", "website" },
-                    { "order", "order.makeorder"}
+                    { "order", "order.makeorder"},
+                    { "order.makeorder", "order.makeorder"},
                 }
             }
         }
@@ -54,7 +55,7 @@ builder.Services.Configure<AppSettings>(configuration);
 builder.Services.Configure<RedisConfig>(
     builder.Configuration.GetSection("Redis"));
 
-builder.Services.AddAuthorization(configuration);
+builder.Services.AddAuthorization(configuration); 
 builder.Services.AddHttpClient();
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddTransient<IJsonConvertWrapper, JsonConvertWrapper>();
@@ -62,7 +63,6 @@ builder.Services.AddTransient<IRedisCacheConnectionService, RedisCacheConnection
 builder.Services.AddTransient<ICacheService, CacheService>();
 builder.Services.AddTransient<IBasketService, BasketService>();
 builder.Services.AddTransient<IOrderService<CatalogItemDto>, OrderService<CatalogItemDto>>();
-builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IInternalHttpClientService, InternalHttpClientService>();
 builder.Services.AddTransient<IBasketService, BasketService>();
 builder.Services.AddTransient<IKeyGeneratorService, KeyGeneratorService>();

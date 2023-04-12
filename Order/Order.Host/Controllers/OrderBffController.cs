@@ -13,7 +13,7 @@ using System.Net;
 namespace Order.Host.Controllers
 {
     [ApiController]
-    [Authorize(Policy = AuthPolicy.AllowEndUserPolicy)]
+    [Authorize(Policy = AuthPolicy.AllowClientPolicy)]
     [Scope("order.makeorder")]
     [Route(ComponentDefaults.DefaultRoute)]
     public class OrderBffController : ControllerBase

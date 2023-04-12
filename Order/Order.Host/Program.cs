@@ -17,9 +17,9 @@ builder.Services.AddControllers(options =>
 {
     options.Filters.Add(typeof(HttpGlobalExceptionFilter));
 })
-    .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true)
-    .AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+    .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
+    //.AddNewtonsoftJson(options =>
+    // options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
 builder.Services.AddSwaggerGen(options =>
 {
@@ -36,13 +36,14 @@ builder.Services.AddSwaggerGen(options =>
         Type = SecuritySchemeType.OAuth2,
         Flows = new OpenApiOAuthFlows()
         {
-            Implicit = new OpenApiOAuthFlow()
+            ClientCredentials = new OpenApiOAuthFlow()
             {
                 AuthorizationUrl = new Uri($"{authority}/connect/authorize"),
                 TokenUrl = new Uri($"{authority}/connect/token"),
                 Scopes = new Dictionary<string, string>()
                 {
                     { "basket", "basket.basketbff" },
+                    { "basket.basketbff", "basket.basketbff" },
                     { "mvc", "website" },
                 }
             }
@@ -55,11 +56,10 @@ builder.AddConfiguration();
 builder.Services.Configure<AppSettings>(configuration);
 
 builder.Services.AddAuthorization(configuration);
-
+builder.Services.AddTransient<IInternalHttpClientService, InternalHttpClientService>();
 builder.Services.AddTransient<IPaymentService, PaymentService>();
 builder.Services.AddTransient<ICatalogItemService, CatalogItemService>();
 builder.Services.AddTransient<IOrderService<CatalogItemDto>, OrderService>();
-builder.Services.AddTransient<IInternalHttpClientService, InternalHttpClientService>();
 builder.Services.AddScoped<LogActionFilterAttribute<OrderBffController>>();
 builder.Services.AddHttpClient();
 
