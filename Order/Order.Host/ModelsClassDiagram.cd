@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Order.Host.Models.Dtos.CatalogItemDto">
+    <Position X="3.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAQAAAAAAAAAAAAQAAAAAABBAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Dtos\CatalogItemDto.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Order.Host.Models.Requests.GetByIdRequest">
+    <Position X="1" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Requests\GetByIdRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Order.Host.Models.Requests.PurchaseRequest&lt;T&gt;">
+    <Position X="3.5" Y="3.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Requests\PurchaseRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Order.Host.Models.Requests.UpdateAvailableStockRequest">
+    <Position X="6" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Requests\UpdateAvailableStockRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Order.Host.Models.Responses.CatalogItemResponse">
+    <Position X="3.5" Y="5.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAwAwAAAAAAAAAAQAAAgAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Models\Responses\CatalogItemResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
