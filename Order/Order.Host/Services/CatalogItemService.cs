@@ -1,4 +1,5 @@
-﻿using Infrastructure.Services.Interfaces;
+﻿using Infrastructure.Models.Responses;
+using Infrastructure.Services.Interfaces;
 using Microsoft.Extensions.Options;
 using Order.Host.Models.Dtos;
 using Order.Host.Models.Requests;
@@ -24,9 +25,10 @@ namespace Order.Host.Services
             Dictionary<int, int> catalogItems = await GetGroupedItems(data);
             List<CatalogItemResponse> listOfResponses = await GetCatalogItemResponsesAsync(catalogItems);
 
-            return !CheckForAvailability(listOfResponses, catalogItems)
-                ? new SuccessfulResultResponse() { IsCompletedSuccessfully = false, Message = "There are to many items in the basket: not enough items in the shop" }
-                : await CommitReducing(listOfResponses.ToArray(), catalogItems);
+            return CheckForAvailability(listOfResponses, catalogItems)
+                ? await CommitReducing(listOfResponses.ToArray(), catalogItems)
+                : new SuccessfulResultResponse() { IsSuccessful = false, 
+                    ErrorMessage = "There are to many items in the basket: not enough items in the shop" };
         }
         private async Task<List<CatalogItemResponse>> GetCatalogItemResponsesAsync(Dictionary<int, int> catalogItems)
         {
@@ -53,13 +55,14 @@ namespace Order.Host.Services
                     (url,
                     HttpMethod.Post, new UpdateAvailableStockRequest { Id = item.Key, AvailableStock = listOfResponses[count].AvailableStock - catalogItems[listOfResponses[count].Id] });
                 count++;
-                if (result == null || !result.IsCompletedSuccessfully)
+                if (result == null || !result.IsSuccessful)
                 {
-                    return new SuccessfulResultResponse { IsCompletedSuccessfully = false, Message = "Cannot aommit reducing available stock" };
+                    return new SuccessfulResultResponse { IsSuccessful = false, 
+                        ErrorMessage = "Cannot aommit reducing available stock" };
                 }
             }
 
-            return new SuccessfulResultResponse { IsCompletedSuccessfully = true };
+            return new SuccessfulResultResponse { IsSuccessful = true };
         }
 
         private bool CheckForAvailability(List<CatalogItemResponse> listOfResponses, Dictionary<int, int> catalogItems)
@@ -78,6 +81,10 @@ namespace Order.Host.Services
 
                 if (item.AvailableStock < catalogItems[item.Id])
                 {
+                    var stocks = item.AvailableStock;
+                    var stonks = catalogItems[item.Id];
+                    Console.WriteLine(stocks);
+                    Console.WriteLine(stonks);
                     return false;
                 }
             }

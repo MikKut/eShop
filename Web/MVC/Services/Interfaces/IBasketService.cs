@@ -1,5 +1,5 @@
-﻿using MVC.Models.Dto;
-using MVC.Models.Responses;
+﻿using Infrastructure.Models.Responses;
+using MVC.Models.Dto;
 
 namespace MVC.Services.Interfaces
 {

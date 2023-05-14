@@ -24,9 +24,9 @@ namespace Basket.Host.Services
             _config = config.Value;
         }
 
-        public Task AddOrUpdateAsync<T>(string key, T value)
+        public async Task AddOrUpdateAsync<T>(string key, T value)
         {
-            return AddOrUpdateInternalAsync(key, value);
+            await AddOrUpdateInternalAsync(key, value);
         }
 
         public async Task<T> GetAsync<T>(string key)
@@ -40,6 +40,23 @@ namespace Basket.Host.Services
                 : default!;
             _logger.LogInformation($"{nameof(GetAsync)}: Deserialized value is null:{deserialized == null}. The value: {deserialized}");
             return deserialized;
+        }
+
+        public async Task ClearCacheByKeyAsync(string key)
+        {
+            IDatabase redis = GetRedisDatabase();
+
+            // delete the key
+            var deleted = await redis.KeyDeleteAsync(key);
+
+            if (deleted)
+            {
+                _logger.LogInformation($"Redis cache cleared for key {key}");
+            }
+            else
+            {
+                _logger.LogInformation($"No Redis cache found for key {key}");
+            }
         }
 
         private async Task AddOrUpdateInternalAsync<T>(string key, T value,

@@ -4,6 +4,7 @@ using Catalog.Host.Models.Response;
 using Catalog.Host.Services.Interfaces;
 using Infrastructure.Filters;
 using Infrastructure.Identity;
+using Infrastructure.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Catalog.Host.Controllers;
@@ -35,12 +36,12 @@ public class CatalogItemController : ControllerBase
     }
 
     [HttpDelete]
-    [ProducesResponseType(typeof(IsSuccededResponse), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(SuccessfulResultResponse), (int)HttpStatusCode.OK)]
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogItemController>))]
     public async Task<IActionResult> Delete(DeleteProductRequest request)
     {
         bool result = await _catalogItemService.DeleteAsync(new CatalogItemDto() { Name = request.Name, AvailableStock = request.AvailableStock, Price = request.Price, PictureUrl = request.PictureFileName, Description = request.Description, CatalogBrandId = request.CatalogBrandId, CatalogTypeId = request.CatalogTypeId });
-        return Ok(new IsSuccededResponse() { IsCompletedSuccessfully = result });
+        return Ok(new SuccessfulResultResponse { IsSuccessful = result });
     }
 
     [HttpPost]
@@ -49,7 +50,7 @@ public class CatalogItemController : ControllerBase
     public async Task<IActionResult> Update(UpdateProductRequest request)
     {
         bool result = await _catalogItemService.UpdateAsync(request.ID, new CatalogItemDto() { Name = request.NewName, AvailableStock = request.NewAvailableStock, Price = request.NewPrice, PictureUrl = request.NewPictureFileName, Description = request.NewDescription, CatalogBrandId = request.NewCatalogBrandId, CatalogTypeId = request.NewCatalogTypeId });
-        return Ok(new IsSuccededResponse() { IsCompletedSuccessfully = result });
+        return Ok(new SuccessfulResultResponse() { IsSuccessful = result });
     }
 
     [HttpPost]
@@ -58,6 +59,6 @@ public class CatalogItemController : ControllerBase
     public async Task<IActionResult> UpdateAvailableStock(UpdateAvailableStockRequest request)
     {
         bool result = await _catalogItemService.UpdateAvailableStockAsync(request);
-        return Ok(new IsSuccededResponse() { IsCompletedSuccessfully = result });
+        return Ok(new SuccessfulResultResponse() { IsSuccessful = result });
     }
 }

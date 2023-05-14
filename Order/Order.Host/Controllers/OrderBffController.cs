@@ -1,6 +1,7 @@
 ﻿using Infrastructure;
 using Infrastructure.Filters;
 using Infrastructure.Identity;
+using Infrastructure.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -37,8 +38,10 @@ namespace Order.Host.Controllers
         [ServiceFilter(typeof(LogActionFilterAttribute<OrderBffController>))]
         public async Task<SuccessfulResultResponse> CommitPurchases(PurchaseRequest<CatalogItemDto> request)
         {
-            _logger.LogInformation($"Recieved request: User id - {request.ID}, Data count - {request.Data.Count()}");
-            return await _orderService.HandlePurchase(request);
+            _logger.LogInformation($"Recieved request: User id - {request.ID}, " +
+                $"Data count - {request.Data.Count()}");
+            var result = await _orderService.HandlePurchase(request);
+            return result;
         }
     }
 }

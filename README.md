@@ -8,6 +8,10 @@ Need to path these lines
     0.0.0.0 www.petShop.com
     194.168.0.1 www.petShop.com
 
+#login
+1) username:bob, password:bob
+2) username:alice, password:alice
+
 #docker
 docker-compose build --no-cache
 

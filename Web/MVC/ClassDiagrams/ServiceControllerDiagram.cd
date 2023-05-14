@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MVC.Controllers.AccountController">
+    <Position X="5" Y="1.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAACAAIAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Controllers\AccountController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_identityParser" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MVC.Controllers.BasketController">
+    <Position X="7.5" Y="1.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAACQAAAAAAAAAAJAAAAAAAAgEAAAAAAAA=</HashCode>
+      <FileName>Controllers\BasketController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_basketService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MVC.Controllers.CatalogController">
+    <Position X="0.5" Y="1.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAABAAAAIAAAAAAAAAEAAAAAAEA=</HashCode>
+      <FileName>Controllers\CatalogController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_catalogService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="MVC.Controllers.ErrorController">
+    <Position X="2.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\ErrorController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MVC.Services.BasketService">
+    <Position X="8" Y="5.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAACABAgBABAAAAJAAAAAAAAgAAAAAAAIA=</HashCode>
+      <FileName>Services\BasketService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_catalogService" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MVC.Services.CatalogService">
+    <Position X="0.5" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAoBABACAAIAAAAAAAEAAAAACAAAA=</HashCode>
+      <FileName>Services\CatalogService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="MVC.Services.IdentityParser">
+    <Position X="5.25" Y="7" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\IdentityParser.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="MVC.Services.Interfaces.ICatalogService">
+    <Position X="0.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAACAAAAAAAAAAEAAAAACAAAA=</HashCode>
+      <FileName>Services\Interfaces\ICatalogService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MVC.Services.Interfaces.IIdentityParser&lt;T&gt;" Collapsed="true">
+    <Position X="5.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Interfaces\IdentityParser.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="MVC.Services.Interfaces.IBasketService" Collapsed="true">
+    <Position X="7.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAABAAAAAAAAgAAAAAAAIA=</HashCode>
+      <FileName>Services\Interfaces\IBasketService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Sergoe UI" Size="9" />
+</ClassDiagram>

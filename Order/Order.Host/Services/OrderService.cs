@@ -1,4 +1,5 @@
-﻿using Order.Host.Models.Dtos;
+﻿using Infrastructure.Models.Responses;
+using Order.Host.Models.Dtos;
 using Order.Host.Models.Requests;
 using Order.Host.Models.Responses;
 using Order.Host.Services.Interfaces;
@@ -22,13 +23,13 @@ namespace Order.Host.Services
         {
             decimal totalCost = request.Data.Sum(x => x.Price);
             SuccessfulResultResponse resultOfCommit = await _paymentService.CheckTrasactionForAvailabilityForUser(request.ID, totalCost);
-            if (!resultOfCommit.IsCompletedSuccessfully)
+            if (!resultOfCommit.IsSuccessful)
             {
                 return resultOfCommit;
             }
 
             resultOfCommit = await _catalogItemService.ReduceQuantityOfItemsAsync(request.Data);
-            if (!resultOfCommit.IsCompletedSuccessfully)
+            if (!resultOfCommit.IsSuccessful)
             {
                 return resultOfCommit;
             }

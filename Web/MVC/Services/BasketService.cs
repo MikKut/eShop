@@ -1,9 +1,10 @@
 ﻿using AutoMapper;
 using MVC.Controllers;
 using MVC.Models.Dto;
-using MVC.Models.Responses;
 using MVC.Services.Interfaces;
 using MVC.ViewModels;
+using MVC.EqualityComparers;
+using Infrastructure.Models.Responses;
 
 namespace MVC.Services
 {
@@ -57,7 +58,7 @@ namespace MVC.Services
             var itemToDelete = await _catalogService.GetCatalogItemById(order.ItemId);
             if (itemToDelete == null)
             {
-                return new SuccessfulResultResponse() { IsSuccessful = false, Message = "There is no such item" };
+                return new SuccessfulResultResponse() { IsSuccessful = false, ErrorMessage = "There is no such item" };
             }
 
             bool removeResult = itemsList.Remove(_mapper.Map<CatalogItemDto>(itemToDelete!));
@@ -86,7 +87,7 @@ namespace MVC.Services
         {
             IEnumerable<CatalogItemDto> backetItems = await GetBasketItems(user);
             _logger.LogInformation($"in grouped recieved {backetItems.Count()} items.");
-            Dictionary<CatalogItemDto, int> backetItemsDictionary = new();
+            Dictionary<CatalogItemDto, int> backetItemsDictionary = new(new CatalogItemEqualityComparer());
             foreach (CatalogItemDto item in backetItems)
             {
                 _logger.LogInformation($"item is null: {item is null}");

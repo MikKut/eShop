@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using MVC.Controllers;
 using MVC.Services;
 using MVC.Services.Interfaces;
-using MVC.ViewModels.Models;
+using MVC.Models.Domains;
 
 var configuration = GetConfiguration();
 

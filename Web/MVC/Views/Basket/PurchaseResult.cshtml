@@ -1,0 +1,19 @@
+﻿@model Infrastructure.Models.Responses.SuccessfulResultResponse
+
+<div>
+    @if (Model.IsSuccessful)
+    {
+        <div>
+            <label class="esh-catalog-label">Your purchase was successful!</label>
+            <img src="~/images/happy-cat.gif" alt="this slowpoke moves" width="250" />
+        </div>
+
+    }
+    else
+    {
+        <div>
+            <label class="esh-catalog-label">something went wrong: @Model.ErrorMessage</label>
+            <img src="~/images/sad-cat.gif" alt="this slowpoke moves" width="250" />
+        </div>
+    }
+</div>

@@ -2,9 +2,9 @@
 using Infrastructure.Filters;
 using MVC.Models.Dto;
 using MVC.Services.Interfaces;
-using MVC.ViewModels.Models;
-using MVC.ViewModels.Models.CatalogViewModels;
-using MVC.ViewModels.Models.Pagination;
+using MVC.Models.Domains;
+using MVC.ViewModels.CatalogViewModels;
+using MVC.ViewModels.Pagination;
 using System.Net;
 
 namespace MVC.Controllers;

@@ -1,4 +1,5 @@
-﻿using Order.Host.Models.Responses;
+﻿using Infrastructure.Models.Responses;
+using Order.Host.Models.Responses;
 using Order.Host.Services.Interfaces;
 
 namespace Order.Host.Services
@@ -7,12 +8,12 @@ namespace Order.Host.Services
     {
         public Task<SuccessfulResultResponse> CommitTrasactionForTheUser(int ID, decimal amount)
         {
-            SuccessfulResultResponse result = new() { IsCompletedSuccessfully = true };
+            SuccessfulResultResponse result = new() { IsSuccessful = true };
             return Task.FromResult(result);
         }
         public Task<SuccessfulResultResponse> CheckTrasactionForAvailabilityForUser(int ID, decimal amount)
         {
-            SuccessfulResultResponse result = new() { IsCompletedSuccessfully = true };
+            SuccessfulResultResponse result = new() { IsSuccessful = true };
             return Task.FromResult(result);
         }
     }

@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Catalog.Host.Models.Requests.CreateProductRequest">
+    <Position X="0.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAwAgAAAAAAAAAAQAAAgAAAAAAAAAARAAAAA=</HashCode>
+      <FileName>Models\Requests\CreateProductRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Catalog.Host.Models.Requests.CreateRequest&lt;T&gt;">
+    <Position X="0.5" Y="4.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Requests\CreateRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Catalog.Host.Models.Requests.DeleteProductRequest">
+    <Position X="8.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAwAgAAAAAAAAAAQAAAgAAAAAAAAAARAAAAA=</HashCode>
+      <FileName>Models\Requests\DeleteProductRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Catalog.Host.Models.Requests.DeleteRequest&lt;T&gt;">
+    <Position X="2.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Requests\DeleteRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Catalog.Host.Models.Requests.GetByIdRequest">
+    <Position X="4.75" Y="4.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Requests\GetByIdRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Catalog.Host.Models.Requests.PaginatedItemsRequest&lt;T&gt;">
+    <Position X="6.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAIAAEAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Models\Requests\PaginatedItemsRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Catalog.Host.Models.Requests.UpdateAvailableStockRequest">
+    <Position X="9" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Requests\UpdateAvailableStockRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Catalog.Host.Models.Requests.UpdateProductRequest">
+    <Position X="3.25" Y="1" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAABAgAAAAgAAAAAAAEAACAAIAAAAAAIAAAA=</HashCode>
+      <FileName>Models\Requests\UpdateProductRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Catalog.Host.Models.Requests.UpdateRequest&lt;T&gt;">
+    <Position X="6" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>Models\Requests\UpdateRequest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Catalog.Host.Models.Response.AddItemResponse&lt;T&gt;">
+    <Position X="0.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Response\AddItemResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Catalog.Host.Models.Response.DataCollectionResponse&lt;T&gt;">
+    <Position X="2.25" Y="6.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Response\DataCollectionResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Catalog.Host.Models.Response.ItemResponse&lt;T&gt;">
+    <Position X="5" Y="6.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Properties" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Response\ItemResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Catalog.Host.Models.Response.PaginatedItemsResponse&lt;T&gt;">
+    <Position X="7" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAQAAAAAABAAAAAAEAAAAAA=</HashCode>
+      <FileName>Models\Response\PaginatedItemsResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -4,6 +4,7 @@ using Catalog.Host.Models.Response;
 using Catalog.Host.Services.Interfaces;
 using Infrastructure.Filters;
 using Infrastructure.Identity;
+using Infrastructure.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Catalog.Host.Controllers;
@@ -35,20 +36,20 @@ public class CatalogBrandController : ControllerBase
     }
 
     [HttpDelete]
-    [ProducesResponseType(typeof(IsSuccededResponse), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(SuccessfulResultResponse), (int)HttpStatusCode.OK)]
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogBrandController>))]
     public async Task<IActionResult> Delete(DeleteRequest<CatalogBrandDto> request)
     {
         bool result = await _catalogBrandService.DeleteAsync(request.Data);
-        return Ok(new IsSuccededResponse() { IsCompletedSuccessfully = result });
+        return Ok(new SuccessfulResultResponse() { IsSuccessful = result });
     }
 
     [HttpPost]
-    [ProducesResponseType(typeof(IsSuccededResponse), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(SuccessfulResultResponse), (int)HttpStatusCode.OK)]
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogBrandController>))]
     public async Task<IActionResult> Update(UpdateRequest<CatalogBrandDto> request)
     {
         bool result = await _catalogBrandService.UpdateAsync(request.ID, request.NewData);
-        return Ok(new IsSuccededResponse() { IsCompletedSuccessfully = result });
+        return Ok(new SuccessfulResultResponse() { IsSuccessful = result });
     }
 }

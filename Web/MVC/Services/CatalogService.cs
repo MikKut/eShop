@@ -2,7 +2,7 @@
 using MVC.Models.Enums;
 using MVC.Models.Requests;
 using MVC.Services.Interfaces;
-using MVC.ViewModels.Models;
+using MVC.Models.Domains;
 
 namespace MVC.Services;
 

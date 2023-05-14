@@ -1,8 +1,9 @@
 ﻿using System.Net;
 using AutoMapper;
+using Infrastructure.Models.Responses;
 using MVC.Models.Dto;
 using MVC.Services.Interfaces;
-using MVC.ViewModels.Models.CatalogBasketItem;
+using MVC.ViewModels.CatalogBasketItem;
 
 namespace MVC.Controllers
 {
@@ -54,8 +55,8 @@ namespace MVC.Controllers
             }
 
             _logger.LogInformation($"Id removing: {id}");
-            Models.Responses.SuccessfulResultResponse isSuccessfulResultResponse = await _basketService.RemoveFromBasket(new OrderItemDto() { User = userDto, ItemId = id });
-            // _logger.LogInformation($"Result of removing from bakset is {isSuccessfulResultResponse.IsSuccessful}:{isSuccessfulResultResponse?.Message}");
+            SuccessfulResultResponse isSuccessfulResultResponse = await _basketService.RemoveFromBasket(new OrderItemDto() { User = userDto, ItemId = id });
+            // _logger.LogInformation($"Result of removing from bakset is {isSuccessfulResultResponse.IsSuccessful}:{isSuccessfulResultResponse?.ErrorMessage}");
             return RedirectToAction("Index");
         }
 
@@ -67,6 +68,7 @@ namespace MVC.Controllers
                 _logger.LogError("User dto is null");
                 return View("Error");
             }
+
             if (id == 0)
             {
                 _logger.LogError("User id is 0");
@@ -74,8 +76,8 @@ namespace MVC.Controllers
             }
 
             _logger.LogInformation($"Id adding: {id}");
-            Models.Responses.SuccessfulResultResponse isSuccessfulResultResponse = await _basketService.AddToBasket(new OrderItemDto() { User = userDto, ItemId = id });
-            // _logger.LogInformation($"Result of adding to bakset is {isSuccessfulResultResponse.IsSuccessful}:{isSuccessfulResultResponse?.Message}");
+            SuccessfulResultResponse isSuccessfulResultResponse = await _basketService.AddToBasket(new OrderItemDto() { User = userDto, ItemId = id });
+            // _logger.LogInformation($"Result of adding to bakset is {isSuccessfulResultResponse.IsSuccessful}:{isSuccessfulResultResponse?.ErrorMessage}");
             return RedirectToAction("Index", "Catalog");
         }
 
@@ -88,9 +90,9 @@ namespace MVC.Controllers
                 return View("Error");
             }
 
-            Models.Responses.SuccessfulResultResponse isSuccessfulResultResponse = await _basketService.CommitPurchases(userDto);
+            SuccessfulResultResponse isSuccessfulResultResponse = await _basketService.CommitPurchases(userDto);
             _logger.LogInformation($"Result of commiting purchases of {userDto.UserId} \"{userDto.UserName}\" is {isSuccessfulResultResponse}");
-            return View("PurchaseResult", await _basketService.CommitPurchases(userDto));
+            return View("PurchaseResult", isSuccessfulResultResponse);
         }
 
         private UserDto? GetUserDto()

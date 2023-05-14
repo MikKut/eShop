@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MVC.Models.Dto;
-using MVC.ViewModels.Models;
+using MVC.Models.Domains;
 
 namespace MVC.Mapping
 {

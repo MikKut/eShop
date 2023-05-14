@@ -39,4 +39,8 @@ public class BasketService : IBasketService
 
         return new BasketDto<CatalogItemDto>() { Data = result };
     }
+    public async Task CleanCurrentBasket(UserDto user)
+    {
+        await _cacheService.ClearCacheByKeyAsync(_keyGeneratorService.GenerateKey(user));
+    }
 }

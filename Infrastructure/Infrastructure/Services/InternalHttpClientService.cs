@@ -30,36 +30,44 @@ public class InternalHttpClientService : IInternalHttpClientService
 
     public async Task<TResponse> SendAsync<TResponse, TRequest>(string url, HttpMethod method, TRequest? content)
     {
-        HttpClient client = _clientFactory.CreateClient();
-        TokenResponse tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+        try
         {
-            Address = $"{_authConfig.Authority}/connect/token",
-            ClientId = _clientConfig.Id,
-            ClientSecret = _clientConfig.Secret
-        });
+            HttpClient client = _clientFactory.CreateClient();
+            TokenResponse tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            {
+                Address = $"{_authConfig.Authority}/connect/token",
+                ClientId = _clientConfig.Id,
+                ClientSecret = _clientConfig.Secret
+            });
 
-        client.SetBearerToken(tokenResponse.AccessToken);
-        HttpRequestMessage httpMessage = new ()
-        {
-            RequestUri = new Uri(url),
-            Method = method
-        };
+            client.SetBearerToken(tokenResponse.AccessToken);
+            HttpRequestMessage httpMessage = new ()
+            {
+                RequestUri = new Uri(url),
+                Method = method
+            };
 
-        if (content != null)
-        {
-            httpMessage.Content =
-                new StringContent(_jsonConvertWrapper.Serialize(content), Encoding.UTF8, "application/json");
+            if (content != null)
+            {
+                httpMessage.Content =
+                    new StringContent(_jsonConvertWrapper.Serialize(content), Encoding.UTF8, "application/json");
+            }
+
+            HttpResponseMessage result = await client.SendAsync(httpMessage);
+
+            if (result.IsSuccessStatusCode)
+            {
+                string resultContent = await result.Content.ReadAsStringAsync();
+                TResponse? response = _jsonConvertWrapper.Deserialize<TResponse>(resultContent);
+                return response!;
+            }
+
+            return default!;
         }
-
-        HttpResponseMessage result = await client.SendAsync(httpMessage);
-
-        if (result.IsSuccessStatusCode)
+        catch (Exception ex)
         {
-            string resultContent = await result.Content.ReadAsStringAsync();
-            TResponse? response = _jsonConvertWrapper.Deserialize<TResponse>(resultContent);
-            return response!;
+            var message = ex.Message;
+            return default!;
         }
-
-        return default!;
     }
 }

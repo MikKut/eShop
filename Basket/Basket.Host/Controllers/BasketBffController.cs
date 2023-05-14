@@ -2,6 +2,7 @@ using Basket.Host.Models.Dtos;
 using Basket.Host.Models.Responses;
 using Basket.Host.Services.Interfaces;
 using Infrastructure.Identity;
+using Infrastructure.Models.Responses;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Basket.Host.Controllers;
@@ -72,6 +73,10 @@ public class BasketBffController : ControllerBase
             _logger.LogInformation($"Request to commit purchases item:\nUser: {user.UserId}/{user.UserName}");
             BasketDto<CatalogItemDto> response = await _basketService.GetItems(user.UserId, user.UserName);
             SuccessfulResultResponse result = await _orderService.CommitPurchases(new OrderDto<CatalogItemDto>() { Orders = response.Data, User = user });
+            if (result.IsSuccessful)
+            {
+                await _basketService.CleanCurrentBasket(user);
+            }
             return Ok(result);
         }
         catch (Exception ex)

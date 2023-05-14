@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using MVC.Services.Interfaces;
-using MVC.ViewModels.Models;
+using MVC.Models.Domains;
 using System.Net;
 
 namespace MVC.Controllers;

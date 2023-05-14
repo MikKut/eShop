@@ -45,6 +45,7 @@ builder.Services.AddSwaggerGen(options =>
                     { "basket", "basket.basketbff" },
                     { "basket.basketbff", "basket.basketbff" },
                     { "mvc", "website" },
+                    { "catalog.catalogitem", "catalog.catalogitem"},         
                 }
             }
         }

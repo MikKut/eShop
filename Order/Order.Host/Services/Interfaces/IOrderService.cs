@@ -1,4 +1,5 @@
-﻿using Order.Host.Models.Requests;
+﻿using Infrastructure.Models.Responses;
+using Order.Host.Models.Requests;
 using Order.Host.Models.Responses;
 
 namespace Order.Host.Services.Interfaces

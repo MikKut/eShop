@@ -8,7 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="EqualityComparers\NewFile.txt" />
       <None Remove="Views\Basket\NewFile.txt" />
+      <None Remove="Views\Basket\NewFile1.txt" />
     </ItemGroup>
 
     <ItemGroup>
@@ -32,6 +34,10 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\Infrastructure\Infrastructure\Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Models\Responses\" />
     </ItemGroup>
 
 </Project>
