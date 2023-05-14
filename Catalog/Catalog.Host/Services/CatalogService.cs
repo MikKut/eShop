@@ -1,4 +1,3 @@
-using AutoMapper;
 using Catalog.Host.Data;
 using Catalog.Host.Models.Dtos;
 using Catalog.Host.Models.Enums;
@@ -28,8 +27,8 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
     {
         return await ExecuteSafeAsync(async () =>
         {
-            var result = await _catalogRepository.GetBrandsAsync();
-            var listOfCatalogItemDtos = result
+            List<Data.Entities.CatalogBrand> result = await _catalogRepository.GetBrandsAsync();
+            List<CatalogBrandDto> listOfCatalogItemDtos = result
             .Select(item => _mapper.Map<CatalogBrandDto>(item))
             .ToList();
             return listOfCatalogItemDtos;
@@ -40,7 +39,7 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
     {
         return await ExecuteSafeAsync(async () =>
         {
-            var result = await _catalogRepository.GetByBrandAsync(catalogTypeId);
+            Data.Entities.CatalogItem? result = await _catalogRepository.GetByBrandAsync(catalogTypeId);
             return _mapper.Map<CatalogItemDto>(result);
         });
     }
@@ -49,7 +48,7 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
     {
         return await ExecuteSafeAsync(async () =>
         {
-            var result = await _catalogRepository.GetByIDAsync(id);
+            Data.Entities.CatalogItem? result = await _catalogRepository.GetByIDAsync(id);
             return _mapper.Map<CatalogItemDto>(result);
         });
     }
@@ -58,7 +57,7 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
     {
         return await ExecuteSafeAsync(async () =>
         {
-            var result = await _catalogRepository.GetByTypeAsync(catalogTypeId);
+            Data.Entities.CatalogItem? result = await _catalogRepository.GetByTypeAsync(catalogTypeId);
             return _mapper.Map<CatalogItemDto>(result);
         });
     }
@@ -67,7 +66,7 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
     {
         return await ExecuteSafeAsync(async () =>
         {
-            var result = await _catalogRepository.GetByPageAsync(pageIndex, pageSize, filters);
+            PaginatedItems<Data.Entities.CatalogItem> result = await _catalogRepository.GetByPageAsync(pageIndex, pageSize, filters);
             return new PaginatedItemsResponse<CatalogItemDto>()
             {
                 Count = result.TotalCount,
@@ -82,8 +81,8 @@ public class CatalogService : BaseDataService<ApplicationDbContext>, ICatalogSer
     {
         return await ExecuteSafeAsync(async () =>
         {
-            var result = await _catalogRepository.GetTypesAsync();
-            var listOfCatalogTypeDtos = result
+            List<Data.Entities.CatalogType> result = await _catalogRepository.GetTypesAsync();
+            List<CatalogTypeDto> listOfCatalogTypeDtos = result
             .Select(item => _mapper.Map<CatalogTypeDto>(item))
             .ToList();
             return listOfCatalogTypeDtos;

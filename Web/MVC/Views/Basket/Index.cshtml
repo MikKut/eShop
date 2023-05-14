@@ -1,0 +1,57 @@
+﻿@model MVC.ViewModels.CatalogBasketItem.BasketListOfItems
+
+<div class="container">
+    <div class="row">
+        <br />
+        @if(ViewBag.BasketInoperativeMsg != null)
+        {
+        <div class="alert alert-warning" role="alert">
+            &nbsp;@ViewBag.BasketInoperativeMsg
+        </div>
+        }
+    </div>
+
+    @if (Model.CatalogItems.Count() > 0)
+    {
+    <div class="esh-catalog-items row">
+        @foreach (var item in Model.CatalogItems)
+        {
+        <div class="esh-catalog-item col-md-4">
+            <p>Type: @item.Key.TypeName </p>
+            <p>Brand: @item.Key.BrandName </p>
+            <p>Name: @item.Key.Name </p>
+            <p>Price: @item.Key.Price </p>
+            <p>Amount: @item.Value </p>
+            <p>Total price: @TotalItemPrice(item) $ </p>
+            <form asp-controller="Basket" asp-action="RemoveFromBasket" asp-route-id="@item.Key.Id">
+                <input type="submit" value="remove">
+            </form>
+        </div>
+            }
+            <p>Total price: @TotalPrice() $ </p>
+        <form asp-controller="Basket" asp-action="CommitPurchases">
+            <input type="submit" value="commit purchase">
+        </form>
+        <form asp-controller="Catalog" asp-action="Index">
+            <input type="submit" value="return to catalog"/>
+        </form>
+    </div>
+    }
+    else
+    {
+    <div class="esh-catalog-items row">
+        THERE ARE NO RESULTS THAT MATCH YOUR SEARCH
+    </div>
+    }
+    @{
+        decimal TotalPrice()
+        {
+            return Model.CatalogItems.Sum(kv => TotalItemPrice(kv));
+        }
+
+        decimal TotalItemPrice(KeyValuePair<MVC.Models.Dto.CatalogItemDto,int > keyValue)
+        {
+            return keyValue.Value * keyValue.Key.Price;
+        }
+    }
+</div>

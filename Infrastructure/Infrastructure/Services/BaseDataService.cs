@@ -16,13 +16,19 @@ public abstract class BaseDataService<T>
         _logger = logger;
     }
 
-    protected Task ExecuteSafeAsync(Func<Task> action, CancellationToken cancellationToken = default) => ExecuteSafeAsync(token => action(), cancellationToken);
+    protected Task ExecuteSafeAsync(Func<Task> action, CancellationToken cancellationToken = default)
+    {
+        return ExecuteSafeAsync(token => action(), cancellationToken);
+    }
 
-    protected Task<TResult> ExecuteSafeAsync<TResult>(Func<Task<TResult>> action, CancellationToken cancellationToken = default) => ExecuteSafeAsync(token => action(), cancellationToken);
+    protected Task<TResult> ExecuteSafeAsync<TResult>(Func<Task<TResult>> action, CancellationToken cancellationToken = default)
+    {
+        return ExecuteSafeAsync(token => action(), cancellationToken);
+    }
 
     private async Task ExecuteSafeAsync(Func<CancellationToken, Task> action, CancellationToken cancellationToken = default)
     {
-        await using var transaction = await _dbContextWrapper.BeginTransactionAsync(cancellationToken);
+        await using IDbContextTransaction transaction = await _dbContextWrapper.BeginTransactionAsync(cancellationToken);
 
         try
         {
@@ -39,11 +45,11 @@ public abstract class BaseDataService<T>
 
     private async Task<TResult> ExecuteSafeAsync<TResult>(Func<CancellationToken, Task<TResult>> action, CancellationToken cancellationToken = default)
     {
-        await using var transaction = await _dbContextWrapper.BeginTransactionAsync(cancellationToken);
+        await using IDbContextTransaction transaction = await _dbContextWrapper.BeginTransactionAsync(cancellationToken);
 
         try
         {
-            var result = await action(cancellationToken);
+            TResult? result = await action(cancellationToken);
 
             await transaction.CommitAsync(cancellationToken);
 
@@ -55,6 +61,6 @@ public abstract class BaseDataService<T>
             _logger.LogError(ex, $"transaction is rollbacked");
         }
 
-        return default(TResult) !;
+        return default!;
     }
 }

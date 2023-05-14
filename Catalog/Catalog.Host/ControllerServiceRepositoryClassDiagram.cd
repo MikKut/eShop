@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Catalog.Host.Controllers.CatalogBffController">
+    <Position X="5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAABAQACABAIAAAAAAAIAAAAAAAEAAAgAAAAAA=</HashCode>
+      <FileName>Controllers\CatalogBffController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_catalogService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Catalog.Host.Controllers.CatalogBrandController">
+    <Position X="2.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAAAAAAAAAAAAIAEACAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\CatalogBrandController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_catalogBrandService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Catalog.Host.Controllers.CatalogItemController">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAYAAAAAAAAAAAAAAAAAAAAgIAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\CatalogItemController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_catalogItemService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Catalog.Host.Controllers.CatalogTypeController">
+    <Position X="7.25" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAABAAAAAAAAAAAAAAAAAAIAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Controllers\CatalogTypeController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_catalogTypeService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Catalog.Host.Services.BaseDataService&lt;T&gt;" Collapsed="true">
+    <Position X="9.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAIAAAAAAAAAAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\BaseDataService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Catalog.Host.Services.CatalogBrandService">
+    <Position X="2.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAABAAEAAAAAAAgAAAAAAAAAAIA=</HashCode>
+      <FileName>Services\CatalogBrandService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_catalogBrandRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Catalog.Host.Services.CatalogItemService">
+    <Position X="0.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAADAAEAAAAAAAgAAAABAAAAAIA=</HashCode>
+      <FileName>Services\CatalogItemService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_catalogItemRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Catalog.Host.Services.CatalogService">
+    <Position X="5" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAEBAAAAJgAQAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Services\CatalogService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_catalogRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Catalog.Host.Services.CatalogTypeService">
+    <Position X="7" Y="5.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAAAAAAABAAEAAAAAAAgAAAAAAAAAAIA=</HashCode>
+      <FileName>Services\CatalogTypeService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_catalogTypeRepository" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Catalog.Host.Services.DbContextWrapper&lt;T&gt;">
+    <Position X="9" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\DbContextWrapper.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Catalog.Host.Repositories.CatalogBrandRepository">
+    <Position X="2.75" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAEAIAAAAAgAAAAAAAAAAIA=</HashCode>
+      <FileName>Repositories\CatalogBrandRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Catalog.Host.Repositories.CatalogItemRepository">
+    <Position X="0.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAEAIAAAAAgAAAABAAAAAIA=</HashCode>
+      <FileName>Repositories\CatalogItemRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Catalog.Host.Repositories.CatalogRepository">
+    <Position X="4.75" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAhAAAAAAAAABBAAAAIgAQAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\CatalogRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Catalog.Host.Repositories.CatalogTypeRepository">
+    <Position X="7" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAAAAAAAEAIAAAAAgAAAAAAAAAAIA=</HashCode>
+      <FileName>Repositories\CatalogTypeRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Catalog.Host.Repositories.Interfaces.ICatalogTypeRepository" Collapsed="true">
+    <Position X="7" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\Interfaces\ICatalogTypeRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Catalog.Host.Repositories.Interfaces.ICatalogRepository" Collapsed="true">
+    <Position X="4.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAABBAAAAIgAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\Interfaces\ICatalogRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Catalog.Host.Repositories.Interfaces.ICatalogBrandRepository" Collapsed="true">
+    <Position X="2.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\Interfaces\ICatalogBrandRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Catalog.Host.Repositories.Interfaces.ICatalogItemRepository" Collapsed="true">
+    <Position X="0.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAgAAAABAAAAAIA=</HashCode>
+      <FileName>Repositories\Interfaces\ICatalogItemRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Catalog.Host.Services.Interfaces.ICatalogService" Collapsed="true">
+    <Position X="5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAEBAAAAIgAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Interfaces\ICatalogService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Catalog.Host.Services.Interfaces.ICatalogBrandService" Collapsed="true">
+    <Position X="2.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Interfaces\ICatalogBrandService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Catalog.Host.Services.Interfaces.ICatalogItemService" Collapsed="true">
+    <Position X="0.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAAAAgAAAABAAAAAIA=</HashCode>
+      <FileName>Services\Interfaces\ICatalogItemService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Catalog.Host.Services.Interfaces.ICatalogTypeService" Collapsed="true">
+    <Position X="7.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Interfaces\ICatalogTypeService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

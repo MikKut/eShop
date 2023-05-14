@@ -1,4 +1,3 @@
-using Catalog.Host;
 using Catalog.Host.Configurations;
 using Catalog.Host.Controllers;
 using Catalog.Host.Data;
@@ -46,7 +45,8 @@ builder.Services.AddSwaggerGen(options =>
                     { "mvc", "website" },
                     { "catalog.catalogitem", "catalog.catalogitem" },
                     { "catalog.catalogtype", "catalog.catalogtype" },
-                    { "catalog.catalogbrand", "catalog.catalogbrand" }
+                    { "catalog.catalogbrand", "catalog.catalogbrand" },
+                    { "order.makeorder", "order.makeorder" },
                 }
             }
         }

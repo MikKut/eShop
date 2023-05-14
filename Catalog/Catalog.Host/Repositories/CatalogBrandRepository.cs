@@ -2,8 +2,6 @@ using Catalog.Host.Data;
 using Catalog.Host.Data.Entities;
 using Catalog.Host.Extensions;
 using Catalog.Host.Repositories.Interfaces;
-using Catalog.Host.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
 
 namespace Catalog.Host.Repositories;
 
@@ -22,28 +20,28 @@ public class CatalogBrandRepository : ICatalogBrandRepository
 
     public async Task<int?> AddAsync(CatalogBrand brand)
     {
-        var item = await _dbContext.CatalogBrands.AddAsync(brand);
-        await _dbContext.SaveChangesAsync();
+        Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<CatalogBrand> item = await _dbContext.CatalogBrands.AddAsync(brand);
+        _ = await _dbContext.SaveChangesAsync();
         return item.Entity.Id;
     }
 
     public async Task<bool> DeleteAsync(CatalogBrand brand)
     {
-        var item = await _dbContext.CatalogBrands
+        CatalogBrand item = await _dbContext.CatalogBrands
            .SingleAsync(t => t.Equal(brand));
         if (item == null)
         {
             return false;
         }
 
-        _dbContext.CatalogBrands.Remove(brand);
-        await _dbContext.SaveChangesAsync();
+        _ = _dbContext.CatalogBrands.Remove(brand);
+        _ = await _dbContext.SaveChangesAsync();
         return true;
     }
 
     public async Task<bool> UpdateAsync(int id, CatalogBrand brand)
     {
-        var item = await _dbContext.CatalogBrands
+        CatalogBrand? item = await _dbContext.CatalogBrands
            .FindAsync(id);
         if (item == null)
         {
@@ -51,7 +49,7 @@ public class CatalogBrandRepository : ICatalogBrandRepository
         }
 
         item.Brand = brand.Brand;
-        await _dbContext.SaveChangesAsync();
+        _ = await _dbContext.SaveChangesAsync();
         return true;
     }
 }

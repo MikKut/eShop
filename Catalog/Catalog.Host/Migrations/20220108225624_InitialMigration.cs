@@ -8,19 +8,19 @@ namespace Catalog.Host.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateSequence(
+            _ = migrationBuilder.CreateSequence(
                 name: "catalog_brand_hilo",
                 incrementBy: 10);
 
-            migrationBuilder.CreateSequence(
+            _ = migrationBuilder.CreateSequence(
                 name: "catalog_hilo",
                 incrementBy: 10);
 
-            migrationBuilder.CreateSequence(
+            _ = migrationBuilder.CreateSequence(
                 name: "catalog_type_hilo",
                 incrementBy: 10);
 
-            migrationBuilder.CreateTable(
+            _ = migrationBuilder.CreateTable(
                 name: "CatalogBrand",
                 columns: table => new
                 {
@@ -29,10 +29,10 @@ namespace Catalog.Host.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CatalogBrand", x => x.Id);
+                    _ = table.PrimaryKey("PK_CatalogBrand", x => x.Id);
                 });
 
-            migrationBuilder.CreateTable(
+            _ = migrationBuilder.CreateTable(
                 name: "CatalogType",
                 columns: table => new
                 {
@@ -41,10 +41,10 @@ namespace Catalog.Host.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CatalogType", x => x.Id);
+                    _ = table.PrimaryKey("PK_CatalogType", x => x.Id);
                 });
 
-            migrationBuilder.CreateTable(
+            _ = migrationBuilder.CreateTable(
                 name: "Catalog",
                 columns: table => new
                 {
@@ -59,14 +59,14 @@ namespace Catalog.Host.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Catalog", x => x.Id);
-                    table.ForeignKey(
+                    _ = table.PrimaryKey("PK_Catalog", x => x.Id);
+                    _ = table.ForeignKey(
                         name: "FK_Catalog_CatalogBrand_CatalogBrandId",
                         column: x => x.CatalogBrandId,
                         principalTable: "CatalogBrand",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
+                    _ = table.ForeignKey(
                         name: "FK_Catalog_CatalogType_CatalogTypeId",
                         column: x => x.CatalogTypeId,
                         principalTable: "CatalogType",
@@ -74,12 +74,12 @@ namespace Catalog.Host.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
+            _ = migrationBuilder.CreateIndex(
                 name: "IX_Catalog_CatalogBrandId",
                 table: "Catalog",
                 column: "CatalogBrandId");
 
-            migrationBuilder.CreateIndex(
+            _ = migrationBuilder.CreateIndex(
                 name: "IX_Catalog_CatalogTypeId",
                 table: "Catalog",
                 column: "CatalogTypeId");
@@ -87,22 +87,22 @@ namespace Catalog.Host.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
+            _ = migrationBuilder.DropTable(
                 name: "Catalog");
 
-            migrationBuilder.DropTable(
+            _ = migrationBuilder.DropTable(
                 name: "CatalogBrand");
 
-            migrationBuilder.DropTable(
+            _ = migrationBuilder.DropTable(
                 name: "CatalogType");
 
-            migrationBuilder.DropSequence(
+            _ = migrationBuilder.DropSequence(
                 name: "catalog_brand_hilo");
 
-            migrationBuilder.DropSequence(
+            _ = migrationBuilder.DropSequence(
                 name: "catalog_hilo");
 
-            migrationBuilder.DropSequence(
+            _ = migrationBuilder.DropSequence(
                 name: "catalog_type_hilo");
         }
     }

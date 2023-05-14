@@ -1,4 +1,5 @@
-﻿using MVC.ViewModels.Pagination;
+﻿using MVC.Models.Domains;
+using MVC.ViewModels.Pagination;
 
 namespace MVC.ViewModels.CatalogViewModels;
 

@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Basket.Host.Controllers.BasketBffController">
+    <Position X="4.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQACAAAAQAAAAAAAAAAJAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Controllers\BasketBffController.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_basketService" />
+      <Field Name="_orderService" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Basket.Host.Services.BasketService">
+    <Position X="7.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAIAAAAAAAgAAAAAAAAAAACI=</HashCode>
+      <FileName>Services\BasketService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_cacheService" />
+      <Field Name="_keyGeneratorService" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Basket.Host.Services.OrderService&lt;T&gt;">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgBAAAAAAJAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\OrderService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Basket.Host.Services.KeyGeneratorService">
+    <Position X="8.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\KeyGenerator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Basket.Host.Services.CacheService">
+    <Position X="5.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAAAAIAAAAAAAAAAZAAAIAQAAAAAJAAAAAA=</HashCode>
+      <FileName>Services\CacheService.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_redisCacheConnectionService" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Basket.Host.Services.RedisCacheConnectionService">
+    <Position X="0.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAEAAEAAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\RedisCacheConnectionService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="Basket.Host.Services.Interfaces.IBasketService" Collapsed="true">
+    <Position X="7.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAIAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Interfaces\IBasketService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Basket.Host.Services.Interfaces.IOrderService&lt;T&gt;" Collapsed="true">
+    <Position X="1" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Interfaces\IOrderService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Basket.Host.Services.Interfaces.ICacheService" Collapsed="true">
+    <Position X="5.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAQAAAAAQAAAAAIAAAAAA=</HashCode>
+      <FileName>Services\Interfaces\ICacheService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Basket.Host.Services.Interfaces.IKeyGeneratorService" Collapsed="true">
+    <Position X="8.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Interfaces\IKeyGeneratorService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Basket.Host.Services.Interfaces.IRedisCacheConnectionService" Collapsed="true">
+    <Position X="1" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\Interfaces\IRedisCacheConnectionService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

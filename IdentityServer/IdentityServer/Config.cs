@@ -19,7 +19,7 @@ namespace IdentityServer
         {
             return new ApiResource[]
             {
-                new ApiResource("alevelwebsite.com")
+                new ApiResource("petShop.com")
                 {
                     Scopes = new List<Scope>
                     {
@@ -34,6 +34,20 @@ namespace IdentityServer
                         new Scope("catalog.catalogbrand"),
                         new Scope("catalog.catalogtype")
                     },
+                },
+                new ApiResource("basket")
+                {
+                    Scopes = new List<Scope>
+                    {
+                        new Scope("basket.basketbff"),
+                    },
+                },
+                new ApiResource("order")
+                {
+                   Scopes = new List<Scope>
+                   {
+                      new Scope("order.makeorder")
+                   },
                 }
             };
         }
@@ -57,8 +71,12 @@ namespace IdentityServer
                 {
                     ClientId = "catalog",
 
-                    // no interactive user, use the clientid/secret for authentication
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+                    AllowedScopes =
+                    {
+                        "order.makeorder"
+                    },
 
                     // secret for authentication
                     ClientSecrets =
@@ -94,6 +112,56 @@ namespace IdentityServer
                     AllowedScopes =
                     {
                         "mvc"
+                    }
+                },
+                 new Client
+                {
+                    ClientId = "basket",
+                    ClientName = "Basket.Host",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials,
+                    AllowAccessTokensViaBrowser = true,
+                    RedirectUris = { $"{configuration["BasketApi"]}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{configuration["BasketApi"]}/swagger/" },
+
+                    AllowedScopes =
+                    {
+                        "basket.basketbff", 
+                        "order.makeorder"
+                    }
+                },
+                 new Client
+                {
+                    ClientId = "order",
+                    ClientName = "Order.Host",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials,
+                    AllowAccessTokensViaBrowser = true,
+                    RedirectUris = { $"{configuration["OrderApi"]}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{configuration["OrderApi"]}/swagger/" },
+
+                    AllowedScopes =
+                    {
+                       "catalog.catalogitem",
+                       "basket.basketbff",
+                       "order.makeorder"
+                    }
+                },
+                 new Client
+                {
+                    ClientId = "orderswaggerui",
+                    ClientName = "Order Swagger UI",
+                    AllowedGrantTypes = GrantTypes.Implicit,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RedirectUris = { $"{configuration["OrderApi"]}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{configuration["OrderApi"]}/swagger/" },
+
+                    AllowedScopes =
+                    {
+                       "catalog.catalogitem",
+                       "mvc",
+                       "basket.basketbff"
                     }
                 },
             };

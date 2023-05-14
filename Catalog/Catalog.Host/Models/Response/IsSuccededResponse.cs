@@ -2,6 +2,6 @@
 {
     public class IsSuccededResponse
     {
-        public bool IsSucceeded { get; set; }
+        public bool IsCompletedSuccessfully { get; set; }
     }
 }

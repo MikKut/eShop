@@ -24,44 +24,63 @@ namespace Basket.Host.Services
             _config = config.Value;
         }
 
-        public Task AddOrUpdateAsync<T>(string key, T value) 
-        => AddOrUpdateInternalAsync(key, value);
+        public async Task AddOrUpdateAsync<T>(string key, T value)
+        {
+            await AddOrUpdateInternalAsync(key, value);
+        }
 
         public async Task<T> GetAsync<T>(string key)
         {
-            var redis = GetRedisDatabase();
+            IDatabase redis = GetRedisDatabase();
 
-            var cacheKey = GetItemCacheKey(key);
-
-            var serialized = await redis.StringGetAsync(cacheKey);
-            
-            return serialized.HasValue ? 
-                _jsonSerializer.Deserialize<T>(serialized.ToString())! 
-                : default(T)!;
+            RedisValue serialized = await redis.StringGetAsync(key);
+            _logger.LogInformation($"{nameof(GetAsync)}: serialized value: {serialized}. key: {key}. Type: {typeof(T)}");
+            T? deserialized = serialized.HasValue ?
+                _jsonSerializer.Deserialize<T>(serialized.ToString())!
+                : default!;
+            _logger.LogInformation($"{nameof(GetAsync)}: Deserialized value is null:{deserialized == null}. The value: {deserialized}");
+            return deserialized;
         }
 
-        private string GetItemCacheKey(string userId) =>
-            $"{userId}";
+        public async Task ClearCacheByKeyAsync(string key)
+        {
+            IDatabase redis = GetRedisDatabase();
+
+            // delete the key
+            var deleted = await redis.KeyDeleteAsync(key);
+
+            if (deleted)
+            {
+                _logger.LogInformation($"Redis cache cleared for key {key}");
+            }
+            else
+            {
+                _logger.LogInformation($"No Redis cache found for key {key}");
+            }
+        }
 
         private async Task AddOrUpdateInternalAsync<T>(string key, T value,
             IDatabase redis = null!, TimeSpan? expiry = null)
         {
-            redis = redis ?? GetRedisDatabase();
-            expiry = expiry ?? _config.CacheTimeout;
+            redis ??= GetRedisDatabase();
+            expiry ??= _config.CacheTimeout;
 
-            var cacheKey = GetItemCacheKey(key);
-            var serialized = _jsonSerializer.Serialize(value!);
+            string serialized = _jsonSerializer.Serialize(value!);
+            _logger.LogInformation($"{nameof(AddOrUpdateAsync)}: Serialized value {serialized}");
 
-            if (await redis.StringSetAsync(cacheKey, serialized, expiry))
+            if (await redis.StringSetAsync(key, serialized, expiry))
             {
-                _logger.LogInformation($"Cached value for key {key} cached");
+                _logger.LogInformation($"{nameof(AddOrUpdateAsync)}: Cached value for key {key} cached");
             }
             else
             {
-                _logger.LogInformation($"Cached value for key {key} updated");
+                _logger.LogInformation($"{nameof(AddOrUpdateAsync)}: Cached value for key {key} updated");
             }
         }
 
-        private IDatabase GetRedisDatabase() => _redisCacheConnectionService.Connection.GetDatabase();
+        private IDatabase GetRedisDatabase()
+        {
+            return _redisCacheConnectionService.Connection.GetDatabase();
+        }
     }
 }

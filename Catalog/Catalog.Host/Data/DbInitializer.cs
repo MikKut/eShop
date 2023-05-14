@@ -6,27 +6,27 @@ public static class DbInitializer
 {
     public static async Task Initialize(ApplicationDbContext context)
     {
-        await context.Database.EnsureCreatedAsync();
+        _ = await context.Database.EnsureCreatedAsync();
 
         if (!context.CatalogBrands.Any())
         {
             await context.CatalogBrands.AddRangeAsync(GetPreconfiguredCatalogBrands());
 
-            await context.SaveChangesAsync();
+            _ = await context.SaveChangesAsync();
         }
 
         if (!context.CatalogTypes.Any())
         {
             await context.CatalogTypes.AddRangeAsync(GetPreconfiguredCatalogTypes());
 
-            await context.SaveChangesAsync();
+            _ = await context.SaveChangesAsync();
         }
 
         if (!context.CatalogItems.Any())
         {
             await context.CatalogItems.AddRangeAsync(GetPreconfiguredItems());
 
-            await context.SaveChangesAsync();
+            _ = await context.SaveChangesAsync();
         }
     }
 

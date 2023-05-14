@@ -1,19 +1,10 @@
-using System.IdentityModel.Tokens.Jwt;
-using AutoMapper;
-using Infrastructure.Configuration;
 using Infrastructure.Extensions;
 using Infrastructure.Filters;
-using Infrastructure.Identity;
-using Infrastructure.Services;
-using Infrastructure.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using MVC.Controllers;
 using MVC.Services;
 using MVC.Services.Interfaces;
-using MVC.ViewModels;
+using MVC.Models.Domains;
 
 var configuration = GetConfiguration();
 
@@ -58,12 +49,13 @@ builder.Services.AddAuthentication(options =>
 
 
 builder.Services.Configure<AppSettings>(configuration);
-
 builder.Services.AddHttpClient();
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddSingleton<ILogger<BasketService>, Logger<BasketService>>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IHttpClientService, HttpClientService>();
 builder.Services.AddTransient<ICatalogService, CatalogService>();
+builder.Services.AddTransient<IBasketService, BasketService>();
 builder.Services.AddTransient<IIdentityParser<ApplicationUser>, IdentityParser>();
 builder.Services.AddScoped<LogActionFilterAttribute<CatalogController>>();
 

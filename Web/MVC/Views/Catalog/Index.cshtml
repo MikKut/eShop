@@ -39,11 +39,13 @@
 
     <div class="esh-catalog-items row">
         @foreach (var catalogItem in Model.CatalogItems)
-            {
+        {
         <div class="esh-catalog-item col-md-4">
-            <partial name="_product" model="catalogItem" />
+            <a asp-controller="Basket" asp-action="AddToBasket" asp-route-id="@catalogItem.Id">
+                <partial name="_product" model="catalogItem" />
+            </a>
         </div>
-            }
+        }
     </div>
 
     <partial name="_pagination" for="PaginationInfo" />
