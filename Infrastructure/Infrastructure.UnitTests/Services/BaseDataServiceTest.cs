@@ -44,7 +44,6 @@ public class BaseDataServiceTest
         // assert
         _dbContextTransaction.Verify(t => t.CommitAsync(CancellationToken.None), Times.Never);
         _dbContextTransaction.Verify(t => t.RollbackAsync(CancellationToken.None), Times.Once);
-
         _logger.Verify(
             x => x.Log(
                 LogLevel.Error,

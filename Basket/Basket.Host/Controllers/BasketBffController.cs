@@ -77,6 +77,7 @@ public class BasketBffController : ControllerBase
             {
                 await _basketService.CleanCurrentBasket(user);
             }
+
             return Ok(result);
         }
         catch (Exception ex)

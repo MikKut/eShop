@@ -1,16 +1,22 @@
 ﻿using System.Threading;
+using System.Threading.Tasks;
+using AutoMapper;
 using Catalog.Host.Data.Entities;
 using Catalog.Host.Models.Dtos;
+using Catalog.Host.Repositories;
+using Catalog.Host.Repositories.Interfaces;
+using Catalog.Host.Services;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
+using Moq;
+using Xunit;
 
 namespace Catalog.Host.UnitTests.Services
 {
     public class CatalogBrandServiceTest
     {
-        private readonly CatalogBrand _testBrand1;
-        private readonly CatalogBrand _testBrand2;
-        private readonly CatalogBrandDto _testBrand1Dto;
-        private readonly CatalogBrandDto _testBrand2Dto;
+        private readonly CatalogBrand _testBrand;
+        private readonly CatalogBrandDto _testBrandDto;
         private readonly ICatalogBrandService _catalogBrandService;
         private readonly Mock<ICatalogBrandRepository> _catalogBrandRepository;
         private readonly Mock<IMapper> _mapper;
@@ -26,113 +32,101 @@ namespace Catalog.Host.UnitTests.Services
             var dbContextTransaction = new Mock<IDbContextTransaction>();
             _dbContextWrapper.Setup(s => s.BeginTransactionAsync(It.IsAny<CancellationToken>())).ReturnsAsync(dbContextTransaction.Object);
             _catalogBrandService = new CatalogBrandService(_dbContextWrapper.Object, _logger.Object, _catalogBrandRepository.Object, _mapper.Object);
-            _testBrand1 = new ()
+            _testBrand = new CatalogBrand
             {
                 Id = 1,
-                Brand = "Test",
+                Brand = "Test"
             };
-            _testBrand2 = new ()
-            {
-                Id = 2,
-                Brand = "Test2",
-            };
-            _testBrand1Dto = new ()
+            _testBrandDto = new CatalogBrandDto
             {
                 Id = 1,
-                Brand = "Test",
-            };
-            _testBrand2Dto = new ()
-            {
-                Id = 2,
-                Brand = "Test2",
+                Brand = "Test"
             };
         }
 
         [Fact]
-        public async Task UpdateAsync_Success()
+        public async Task AddAsync_ShouldReturnId_WhenSuccessfullyAdded()
         {
-            // arrange
-            _catalogBrandRepository.Setup(s => s.UpdateAsync(
-                1,
-                _testBrand1)).ReturnsAsync(true);
+            // Arrange
+            _catalogBrandRepository.Setup(s => s.AddAsync(It.IsAny<CatalogBrand>())).ReturnsAsync(_testBrand.Id);
+            _mapper.Setup(s => s.Map<CatalogBrandDto>(_testBrand)).Returns(_testBrandDto);
 
-            _mapper.Setup(s => s.Map<CatalogBrandDto>(
-               It.Is<CatalogBrand>(i => i.Equals(_testBrand1)))).Returns(_testBrand1Dto);
+            // Act
+            var result = await _catalogBrandService.AddAsync(_testBrandDto);
 
-            // act
-            var result = await _catalogBrandService.UpdateAsync(_testBrand1.Id, _testBrand1Dto);
-
-            // assert
-            result.Should().Be(true);
+            // Assert
+            result.Should().Be(_testBrand.Id);
         }
 
         [Fact]
-        public async Task UpdateAsync_Failed()
+        public async Task AddAsync_ShouldReturnNull_WhenAddingFails()
         {
-            // arrange
-            _catalogBrandRepository.Setup(s => s.UpdateAsync(
-                1,
-                _testBrand1)).ReturnsAsync(false);
+            // Arrange
+            // _catalogBrandRepository.Setup(s => s.AddAsync(_testBrand)).ReturnsAsync(null);
+            _catalogBrandRepository.Setup(s => s.AddAsync(_testBrand)).ReturnsAsync((int?)null);
+            _mapper.Setup(s => s.Map<CatalogBrandDto>(_testBrand)).Returns(_testBrandDto);
 
-            _mapper.Setup(s => s.Map<CatalogBrandDto>(
-               It.Is<CatalogBrand>(i => i.Equals(_testBrand1)))).Returns(_testBrand1Dto);
+            // Act
+            var result = await _catalogBrandService.AddAsync(_testBrandDto);
 
-            // act
-            var result = await _catalogBrandService.UpdateAsync(_testBrand1.Id, _testBrand1Dto);
-
-            // assert
-            result.Should().Be(false);
+            // Assert
+            result.Should().BeNull();
         }
 
         [Fact]
-        public async Task AddAsync_Success()
+        public async Task UpdateAsync_ShouldReturnTrue_WhenSuccessfullyUpdated()
         {
-            // arrange
-            _catalogBrandRepository.Setup(s => s.AddAsync(
-                _testBrand1)).ReturnsAsync(_testBrand1.Id);
+            // Arrange
+            _catalogBrandRepository.Setup(s => s.UpdateAsync(_testBrand.Id, It.IsAny<CatalogBrand>())).ReturnsAsync(true);
+            _mapper.Setup(s => s.Map<CatalogBrandDto>(_testBrand)).Returns(_testBrandDto);
 
-            _mapper.Setup(s => s.Map<CatalogBrandDto>(
-               It.Is<CatalogBrand>(i => i.Equals(_testBrand1)))).Returns(_testBrand1Dto);
+            // Act
+            var result = await _catalogBrandService.UpdateAsync(_testBrand.Id, _testBrandDto);
 
-            // act
-            var result = await _catalogBrandService.AddAsync(_testBrand1Dto);
-
-            // assert
-            result.Should().Be(_testBrand1.Id);
+            // Assert
+            result.Should().BeTrue();
         }
 
         [Fact]
-        public async Task DeleteAsync_Success()
+        public async Task UpdateAsync_ShouldReturnFalse_WhenUpdateFails()
         {
-            // arrange
-            _catalogBrandRepository.Setup(s => s.DeleteAsync(
-                _testBrand1)).ReturnsAsync(true);
+            // Arrange
+            _catalogBrandRepository.Setup(s => s.UpdateAsync(_testBrand.Id, _testBrand)).ReturnsAsync(false);
+            _mapper.Setup(s => s.Map<CatalogBrandDto>(_testBrand)).Returns(_testBrandDto);
 
-            _mapper.Setup(s => s.Map<CatalogBrandDto>(
-               It.Is<CatalogBrand>(i => i.Equals(_testBrand1)))).Returns(_testBrand1Dto);
+            // Act
+            var result = await _catalogBrandService.UpdateAsync(_testBrand.Id, _testBrandDto);
 
-            // act
-            var result = await _catalogBrandService.DeleteAsync(_testBrand1Dto);
-
-            // assert
-            result.Should().Be(true);
+            // Assert
+            result.Should().BeFalse();
         }
 
         [Fact]
-        public async Task DeleteAsync_Failed()
+        public async Task DeleteAsync_ShouldReturnTrue_WhenSuccessfullyDeleted()
         {
-            // arrange
-            _catalogBrandRepository.Setup(s => s.DeleteAsync(
-                _testBrand1)).ReturnsAsync(false);
+            // Arrange
+            _mapper.Setup(s => s.Map<CatalogBrandDto>(_testBrand)).Returns(_testBrandDto);
+            _catalogBrandRepository.Setup(s => s.DeleteAsync(It.IsAny<CatalogBrand>())).ReturnsAsync(true);
 
-            _mapper.Setup(s => s.Map<CatalogBrandDto>(
-               It.Is<CatalogBrand>(i => i.Equals(_testBrand1)))).Returns(_testBrand1Dto);
+            // Act
+            var result = await _catalogBrandService.DeleteAsync(_testBrandDto);
 
-            // act
-            var result = await _catalogBrandService.DeleteAsync(_testBrand1Dto);
+            // Assert
+            result.Should().BeTrue();
+        }
 
-            // assert
-            result.Should().Be(false);
+        [Fact]
+        public async Task DeleteAsync_ShouldReturnFalse_WhenDeleteFails()
+        {
+            // Arrange
+            _catalogBrandRepository.Setup(s => s.DeleteAsync(_testBrand)).ReturnsAsync(false);
+            _mapper.Setup(s => s.Map<CatalogBrandDto>(_testBrand)).Returns(_testBrandDto);
+
+            // Act
+            var result = await _catalogBrandService.DeleteAsync(_testBrandDto);
+
+            // Assert
+            result.Should().BeFalse();
         }
     }
 }

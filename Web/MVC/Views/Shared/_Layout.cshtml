@@ -3,11 +3,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - eShop</title>
+    <title>@ViewData["Title"] - petShop</title>
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/app.css" />
+        <link rel="stylesheet" href="~/css/basket/basket.css" />
         <link rel="stylesheet" href="~/css/app.component.css" />
         <link rel="stylesheet" href="~/css/shared/components/header/header.css" />
         <link rel="stylesheet" href="~/css/shared/components/pager/pager.css" />
@@ -25,64 +26,65 @@
     </environment>
 </head>
 <body>
-    <header class="esh-app-header">
-        <div class="container">
-            <article class="row">
+    <div class="wrapper">
+        <header class="esh-app-header">
+            <div class="container">
+                <article class="row">
 
-                <section class="col-lg-7 col-md-6 col-12">
-                    <a class="navbar-brand" routerLink="catalog">
-                        <a asp-area="" asp-controller="Catalog" asp-action="Index">
-                            <img src="~/images/brand.png" />
+                    <section class="col-lg-7 col-md-6 col-12">
+                        <a class="navbar-brand" routerLink="catalog">
+                            <a asp-area="" asp-controller="Catalog" asp-action="Index">
+                                <img src="~/images/brand.png" />
+                            </a>
                         </a>
-                    </a>
-                    <a class="navbar-brand" routerLink="basket">
-                        <a asp-area="" asp-controller="Basket" asp-action="Index">
-                            Basket
+                        <a class="navbar-brand" routerLink="basket">
+                            <a asp-area="" asp-controller="Basket" asp-action="Index">
+                                Basket
+                            </a>
                         </a>
-                    </a>
-                </section>
-                
-                @await Html.PartialAsync("_LoginPartial")
-            </article>
-        </div>
-    </header>
+                    </section>
+                    
+                    @await Html.PartialAsync("_LoginPartial")
+                </article>
+            </div>
+        </header>
 
-    @RenderBody()
+        @RenderBody()
+        
 
+        <footer class="esh-app-footer">
+            <div class="container">
+                <article class="row">
 
-    <footer class="esh-app-footer">
-        <div class="container">
-            <article class="row">
+                    <section class="col-sm-6">
+                        <img class="esh-app-footer-brand" src="~/images/brand_dark.png" />
+                    </section>
 
-                <section class="col-sm-6">
-                    <img class="esh-app-footer-brand" src="~/images/brand_dark.png" />
-                </section>
+                    <section class="col-sm-6">
+                    </section>
 
-                <section class="col-sm-6">
-                </section>
+                </article>
+            </div>
+        </footer>
 
-            </article>
-        </div>
-    </footer>
+        <environment names="Development">
+            <script src="~/lib/jquery/jquery.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+            <script src="~/js/site.js" asp-append-version="true"></script>
+        </environment>
+        <environment names="Staging,Production">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+                    asp-fallback-src="~/lib/jquery/jquery.min.js"
+                    asp-fallback-test="window.jQuery">
+            </script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
+            </script>
+            <script src="~/js/site.min.js" asp-append-version="true"></script>
+        </environment>
 
-    <environment names="Development">
-        <script src="~/lib/jquery/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment names="Staging,Production">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
-                asp-fallback-src="~/lib/jquery/jquery.min.js"
-                asp-fallback-test="window.jQuery">
-        </script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
-
-    @RenderSection("scripts", required: false)
-
+        @RenderSection("scripts", required: false)
+    </div>
 </body>
 </html>

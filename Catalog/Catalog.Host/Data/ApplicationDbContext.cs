@@ -11,7 +11,9 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<CatalogItem> CatalogItems { get; set; } = null!;
+
     public DbSet<CatalogBrand> CatalogBrands { get; set; } = null!;
+
     public DbSet<CatalogType> CatalogTypes { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder builder)

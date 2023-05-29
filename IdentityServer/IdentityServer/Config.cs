@@ -48,7 +48,14 @@ namespace IdentityServer
                    {
                       new Scope("order.makeorder")
                    },
-                }
+                },
+                new ApiResource("testing")
+                {
+                    Scopes = new List<Scope>
+                    {
+                        new Scope("integrationtesting.test")
+                    },
+                },
             };
         }
 
@@ -99,7 +106,7 @@ namespace IdentityServer
                         "openid", "profile", "mvc", "catalog.catalogitem","catalog.catalogtype", "catalog.catalogbrand"
                     }
                 },
-                 new Client
+                new Client
                 {
                     ClientId = "basketswaggerui",
                     ClientName = "Basket Swagger UI",
@@ -114,7 +121,7 @@ namespace IdentityServer
                         "mvc"
                     }
                 },
-                 new Client
+                new Client
                 {
                     ClientId = "basket",
                     ClientName = "Basket.Host",
@@ -130,7 +137,7 @@ namespace IdentityServer
                         "order.makeorder"
                     }
                 },
-                 new Client
+                new Client
                 {
                     ClientId = "order",
                     ClientName = "Order.Host",
@@ -147,7 +154,7 @@ namespace IdentityServer
                        "order.makeorder"
                     }
                 },
-                 new Client
+                new Client
                 {
                     ClientId = "orderswaggerui",
                     ClientName = "Order Swagger UI",
@@ -163,6 +170,26 @@ namespace IdentityServer
                        "mvc",
                        "basket.basketbff"
                     }
+                },
+                new Client
+                {
+                    ClientId = "testing",
+                    ClientName = "testing",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+                    AllowedGrantTypes = GrantTypes.ImplicitAndClientCredentials,
+                    AllowAccessTokensViaBrowser = true,
+
+                    AllowedScopes =
+                    {
+                        "order.makeorder",
+                        "basket.basketbff",
+                        "catalog.catalogitem",
+                        "catalog.catalogbrand",
+                        "catalog.catalogtype",
+                        "mvc",
+                        "openid", 
+                        "profile",
+                    },
                 },
             };
         }

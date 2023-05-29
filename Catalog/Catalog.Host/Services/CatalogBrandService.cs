@@ -21,19 +21,19 @@ namespace Catalog.Host.Services
             _catalogBrandRepository = catalogBrandRepository;
         }
 
-        public Task<int?> AddAsync(CatalogBrandDto itemToAdd)
+        public async Task<int?> AddAsync(CatalogBrandDto itemToAdd)
         {
-            return ExecuteSafeAsync(() => _catalogBrandRepository.AddAsync(_mapper.Map<CatalogBrand>(itemToAdd)));
+            return await ExecuteSafeAsync(() => _catalogBrandRepository.AddAsync(_mapper.Map<CatalogBrand>(itemToAdd)));
         }
 
-        public Task<bool> DeleteAsync(CatalogBrandDto itemToDelete)
+        public async Task<bool> DeleteAsync(CatalogBrandDto itemToDelete)
         {
-            return ExecuteSafeAsync(() => _catalogBrandRepository.DeleteAsync(_mapper.Map<CatalogBrand>(itemToDelete)));
+            return await ExecuteSafeAsync(() => _catalogBrandRepository.DeleteAsync(_mapper.Map<CatalogBrand>(itemToDelete)));
         }
 
-        public Task<bool> UpdateAsync(int id, CatalogBrandDto itemToAdd)
+        public async Task<bool> UpdateAsync(int id, CatalogBrandDto itemToAdd)
         {
-            return ExecuteSafeAsync(() => _catalogBrandRepository.UpdateAsync(id, _mapper.Map<CatalogBrand>(itemToAdd)));
+            return await ExecuteSafeAsync(() => _catalogBrandRepository.UpdateAsync(id, _mapper.Map<CatalogBrand>(itemToAdd)));
         }
     }
 }

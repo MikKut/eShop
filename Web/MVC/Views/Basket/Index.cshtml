@@ -13,10 +13,10 @@
 
     @if (Model.CatalogItems.Count() > 0)
     {
-    <div class="esh-catalog-items row">
+        <div class="esh-catalog-items row">
         @foreach (var item in Model.CatalogItems)
         {
-        <div class="esh-catalog-item col-md-4">
+        <div class="basket-item col-md-4">
             <p>Type: @item.Key.TypeName </p>
             <p>Brand: @item.Key.BrandName </p>
             <p>Name: @item.Key.Name </p>
@@ -24,18 +24,25 @@
             <p>Amount: @item.Value </p>
             <p>Total price: @TotalItemPrice(item) $ </p>
             <form asp-controller="Basket" asp-action="RemoveFromBasket" asp-route-id="@item.Key.Id">
-                <input type="submit" value="remove">
+                <input type="submit" class="basket-button-remove" value="remove">
             </form>
         </div>
-            }
+        }
+        </div>
+
+        <div>
             <p>Total price: @TotalPrice() $ </p>
-        <form asp-controller="Basket" asp-action="CommitPurchases">
-            <input type="submit" value="commit purchase">
-        </form>
-        <form asp-controller="Catalog" asp-action="Index">
-            <input type="submit" value="return to catalog"/>
-        </form>
-    </div>
+
+            <div class="buttons-container">
+                <form asp-controller="Basket" asp-action="CommitPurchases">
+                    <input type="submit" value="commit purchase">
+                </form>
+                <form asp-controller="Catalog" asp-action="Index">
+                    <input type="submit" value="return to catalog" />
+                </form>
+            </div>
+        </div>
+
     }
     else
     {
@@ -43,15 +50,17 @@
         THERE ARE NO RESULTS THAT MATCH YOUR SEARCH
     </div>
     }
-    @{
-        decimal TotalPrice()
-        {
-            return Model.CatalogItems.Sum(kv => TotalItemPrice(kv));
-        }
-
-        decimal TotalItemPrice(KeyValuePair<MVC.Models.Dto.CatalogItemDto,int > keyValue)
-        {
-            return keyValue.Value * keyValue.Key.Price;
-        }
-    }
 </div>
+
+
+@{
+    decimal TotalPrice()
+    {
+        return Model.CatalogItems.Sum(kv => TotalItemPrice(kv));
+    }
+
+    decimal TotalItemPrice(KeyValuePair<MVC.Models.Dto.CatalogItemDto, int> keyValue)
+    {
+        return keyValue.Value * keyValue.Key.Price;
+    }
+}

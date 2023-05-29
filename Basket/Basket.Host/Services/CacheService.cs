@@ -45,10 +45,7 @@ namespace Basket.Host.Services
         public async Task ClearCacheByKeyAsync(string key)
         {
             IDatabase redis = GetRedisDatabase();
-
-            // delete the key
-            var deleted = await redis.KeyDeleteAsync(key);
-
+            bool deleted = await redis.KeyDeleteAsync(key);
             if (deleted)
             {
                 _logger.LogInformation($"Redis cache cleared for key {key}");

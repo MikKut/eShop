@@ -58,7 +58,7 @@ namespace Order.Host.Services
                 if (result == null || !result.IsSuccessful)
                 {
                     return new SuccessfulResultResponse { IsSuccessful = false, 
-                        ErrorMessage = "Cannot aommit reducing available stock" };
+                        ErrorMessage = "Cannot commit reducing available stock" };
                 }
             }
 

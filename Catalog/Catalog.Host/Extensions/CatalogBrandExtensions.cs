@@ -7,7 +7,7 @@ namespace Catalog.Host.Extensions
         public static bool Equal(this ICatalogBrand firstObj, ICatalogBrand secondObj)
         {
             return firstObj != null && secondObj != null
-&& firstObj.Id == secondObj.Id
+                && firstObj.Id == secondObj.Id
                 && firstObj.Brand == secondObj.Brand;
         }
     }

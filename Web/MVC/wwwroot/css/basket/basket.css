@@ -1,0 +1,13 @@
+﻿.basket-item {
+    margin-top: 1rem;
+    border-style: dotted;
+}
+
+.basket-button-remove{
+    background-color: red;
+}
+
+.buttons-container {
+    align-content: center;
+    display: flex;
+}
