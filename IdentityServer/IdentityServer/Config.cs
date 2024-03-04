@@ -1,25 +1,36 @@
 ﻿using IdentityServer4.Models;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
+using Serilog;
 
 namespace IdentityServer
 {
     public static class Config
     {
+        // Add a logger instance
+        private static readonly ILogger _logger = new LoggerConfiguration()
+            .MinimumLevel.Debug() // Set the minimum logging level
+            .WriteTo.Console() // Log to console
+            .CreateLogger();
         public static IEnumerable<IdentityResource> GetIdentityResources()
         {
-            return new IdentityResource[]
+            _logger.Information("Retrieving identity resources...");
+            var resourses = new IdentityResource[]
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile()
             };
+
+            _logger.Information("Identity resources retrieved successfully.");
+            return resourses;
         }
 
         public static IEnumerable<ApiResource> GetApis()
         {
-            return new ApiResource[]
+            _logger.Information("Retrieving API resources...");
+            var apis =  new ApiResource[]
             {
-                new ApiResource("petShop.com")
+                new ApiResource("petshop.com")
                 {
                     Scopes = new List<Scope>
                     {
@@ -32,7 +43,8 @@ namespace IdentityServer
                     {
                         new Scope("catalog.catalogitem"),
                         new Scope("catalog.catalogbrand"),
-                        new Scope("catalog.catalogtype")
+                        new Scope("catalog.catalogtype"),
+                        new Scope("catalog.catalogbff")
                     },
                 },
                 new ApiResource("basket")
@@ -57,11 +69,15 @@ namespace IdentityServer
                     },
                 },
             };
+
+            _logger.Information("API resources retrieved successfully.");
+            return apis;
         }
 
         public static IEnumerable<Client> GetClients(IConfiguration configuration)
         {
-            return new[]
+            _logger.Information("Retrieving clients...");
+            var clients = new[]
             {
                 new Client
                 {
@@ -70,7 +86,7 @@ namespace IdentityServer
                     AllowedGrantTypes = GrantTypes.Code,
                     ClientSecrets = {new Secret("secret".Sha256())},
                     RedirectUris = { $"{configuration["MvcUrl"]}/signin-oidc"},
-                    AllowedScopes = {"openid", "profile", "mvc", "catalog.catalogitem"},
+                    AllowedScopes = {"openid", "profile", "mvc", "catalog.catalogitem", "catalog.catalogbff"},
                     RequirePkce = true,
                     RequireConsent = false
                 },
@@ -82,7 +98,7 @@ namespace IdentityServer
 
                     AllowedScopes =
                     {
-                        "order.makeorder"
+                        "order.makeorder", "mvc", "profile", "catalog.catalogbff"
                     },
 
                     // secret for authentication
@@ -103,7 +119,7 @@ namespace IdentityServer
 
                     AllowedScopes =
                     {
-                        "openid", "profile", "mvc", "catalog.catalogitem","catalog.catalogtype", "catalog.catalogbrand"
+                        "openid", "profile", "mvc", "catalog.catalogitem","catalog.catalogtype", "catalog.catalogbrand", "catalog.catalogbff"
                     }
                 },
                 new Client
@@ -134,7 +150,8 @@ namespace IdentityServer
                     AllowedScopes =
                     {
                         "basket.basketbff", 
-                        "order.makeorder"
+                        "order.makeorder",
+                        "catalog.catalogbff"
                     }
                 },
                 new Client
@@ -168,7 +185,8 @@ namespace IdentityServer
                     {
                        "catalog.catalogitem",
                        "mvc",
-                       "basket.basketbff"
+                       "basket.basketbff",
+                       "catalog.catalogbff"
                     }
                 },
                 new Client
@@ -189,9 +207,13 @@ namespace IdentityServer
                         "mvc",
                         "openid", 
                         "profile",
+                        "catalog.catalogbff"
                     },
                 },
             };
+
+            _logger.Information("Clients retrieved successfully.");
+            return clients;
         }
     }
 }

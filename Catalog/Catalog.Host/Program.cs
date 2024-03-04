@@ -90,6 +90,11 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+var pathBase = configuration["PathBase"];
+if (!string.IsNullOrEmpty(pathBase))
+{
+    app.UsePathBase(PathString.FromUriComponent(new Uri(pathBase)));
+}
 
 app.UseSwagger()
     .UseSwaggerUI(setup =>
@@ -132,7 +137,6 @@ void CreateDbIfNotExists(IHost host)
         try
         {
             var context = services.GetRequiredService<ApplicationDbContext>();
-
             DbInitializer.Initialize(context).Wait();
         }
         catch (Exception ex)

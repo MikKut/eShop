@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Catalog.Host.Controllers;
 
 [ApiController]
-[Authorize(Policy = AuthPolicy.AllowEndUserPolicy)]
+[AllowAnonymous]
 [Route(ComponentDefaults.DefaultRoute)]
 public class CatalogBffController : ControllerBase
 {
@@ -36,6 +36,7 @@ public class CatalogBffController : ControllerBase
     [ServiceFilter(typeof(LogActionFilterAttribute<CatalogBffController>))]
     public async Task<IActionResult> Items(PaginatedItemsRequest<CatalogTypeFilter> request)
     {
+        _logger.LogDebug("Entered Items from catalog bff");
         PaginatedItemsResponse<CatalogItemDto> result = await _catalogService.GetCatalogItemsAsync(request.PageSize, request.PageIndex, request.Filters);
         return Ok(result);
     }

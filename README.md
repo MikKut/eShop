@@ -4,9 +4,9 @@
    
 Need to path these lines
 
-    127.0.0.1 www.petShop.com
-    0.0.0.0 www.petShop.com
-    194.168.0.1 www.petShop.com
+    127.0.0.1 www.petshop.com
+    0.0.0.0 www.petshop.com
+    194.168.0.1 www.petshop.com
 
 #login
 1) username:bob, password:bob

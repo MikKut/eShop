@@ -8,7 +8,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://www.petShop.com:5006"
+      "applicationUrl": "http://www.petshop.com:5006"
     },
     "Docker": {
       "commandName": "Docker",
